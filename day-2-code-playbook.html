@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 2 PHP Code Playbook - TESDA NC III</title>
+<style>
+:root{
+  --bg:#f6f7f9; --panel:#ffffff; --ink:#1b2430; --muted:#5d6b7a; --line:#dfe4ea;
+  --brand:#0f4c81; --brand-ink:#0b3a63;
+  --code-bg:#f2f4f6; --code-ink:#1d2b36; --cap:#e7ecf1;
+  --why:#e8f0fe; --run:#e4f3e2; --new:#f4e9fd; --add:#fde9e9; --warn:#fff4ce;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#12161c; --panel:#181e26; --ink:#e6ecf2; --muted:#9fb0c0; --line:#2a333e;
+    --brand:#7fb3e0; --brand-ink:#a8ccec;
+    --code-bg:#0f141a; --code-ink:#d7e3ee; --cap:#212a34;
+    --why:#152437; --run:#16281a; --new:#241833; --add:#331a1a; --warn:#332a12;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.62 "Segoe UI",system-ui,-apple-system,Arial,sans-serif}
+.wrap{display:flex;align-items:flex-start;max-width:1280px;margin:0 auto}
+nav.toc{position:sticky;top:0;flex:0 0 268px;height:100vh;overflow-y:auto;
+  padding:22px 16px 40px;border-right:1px solid var(--line)}
+nav.toc h2{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+nav.toc a{display:block;padding:5px 8px;border-radius:5px;color:var(--ink);
+  text-decoration:none;font-size:13px;line-height:1.4}
+nav.toc a:hover{background:var(--cap)}
+nav.toc a.home{color:var(--brand);font-weight:600;margin-bottom:12px}
+main{flex:1 1 auto;min-width:0;padding:26px 30px 90px}
+header.pagehead{border-bottom:2px solid var(--brand);padding-bottom:14px;margin-bottom:8px}
+header.pagehead h1{margin:0 0 6px;font-size:25px;color:var(--brand);line-height:1.25}
+header.pagehead p{margin:0;color:var(--muted);font-size:14px}
+section{background:var(--panel);border:1px solid var(--line);border-radius:9px;
+  padding:18px 22px 22px;margin:20px 0}
+section>h2{margin:0 0 4px;font-size:19px;color:var(--brand);line-height:1.3}
+h3{font-size:15px;margin:20px 0 6px;color:var(--brand-ink)}
+p{margin:9px 0}
+ul,ol{margin:9px 0;padding-left:22px}
+li{margin:4px 0}
+code.inline{background:var(--code-bg);padding:1px 5px;border-radius:4px;
+  font-family:Consolas,"Courier New",monospace;font-size:13px}
+.callout{border-radius:7px;padding:11px 14px;margin:12px 0;font-size:14px}
+.callout b{display:inline-block;margin-right:6px;letter-spacing:.03em}
+.why{background:var(--why)} .run{background:var(--run)} .newf{background:var(--new)}
+.addf{background:var(--add)} .warn{background:var(--warn)}
+.codeblock{margin:14px 0;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.codecap{background:var(--cap);padding:6px 12px;font-size:12px;color:var(--muted);
+  display:flex;justify-content:space-between;align-items:center;gap:10px}
+.codecap span{font-family:Consolas,"Courier New",monospace}
+.codecap button{background:transparent;border:1px solid var(--line);color:var(--muted);
+  border-radius:4px;padding:2px 9px;font-size:11px;cursor:pointer}
+.codecap button:hover{color:var(--ink)}
+pre{margin:0;padding:13px 14px;background:var(--code-bg);color:var(--code-ink);
+  overflow-x:auto;font-family:Consolas,"Courier New",monospace;font-size:12.6px;line-height:1.55}
+table{width:100%;border-collapse:collapse;margin:13px 0;font-size:13.5px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--cap);font-size:12.5px}
+footer{color:var(--muted);font-size:12.5px;padding:20px 30px 60px;max-width:1280px;margin:0 auto}
+@media(max-width:900px){
+  .wrap{display:block} nav.toc{position:static;height:auto;width:auto;flex:none;
+    border-right:0;border-bottom:1px solid var(--line)}
+  main{padding:18px}
+}
+@media print{
+  nav.toc{display:none} section{break-inside:avoid;border:0;padding:0}
+  body{background:#fff}
+}
+
+details.answer{margin:2px 0 16px;border:1px solid var(--line);border-radius:6px;padding:2px 12px;background:var(--panel)}
+details.answer summary{cursor:pointer;color:var(--brand);font-weight:600;padding:7px 0;list-style:revert}
+details.answer[open] summary{margin-bottom:2px;border-bottom:1px solid var(--line)}
+details.answer p{margin:8px 0}
+h4{font-size:15px;margin:26px 0 4px;color:var(--brand);border-bottom:1px solid var(--line);padding-bottom:4px}
+p.sag-el{margin:16px 0 4px;color:var(--brand-ink);font-size:13.5px}
+span.sag{display:inline-block;font-size:11px;color:var(--muted);background:var(--cap);border-radius:4px;padding:0 6px;margin-right:4px;vertical-align:middle}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><h2>Contents</h2><a class="home" href="../START-HERE.html">&#8592; Back to the hub</a><a href="day-1-command-playbook.html">&#8592; Day 1: Command Playbook</a><a href="#p2-before">How To Use This Playbook</a><a href="#p2-step1">Step 1. Database Schema</a><a href="#p2-step2">Step 2. Autoloader &amp; Database</a><a href="#p2-step3">Step 3. Minimal Front Controller (V1)</a><a href="#p2-step4">Step 4. Register Logic</a><a href="#p2-step5">Step 5. Router, Request &amp; Wiring Register</a><a href="#p2-step6">Step 6. Login &amp; JWT</a><a href="#p2-step7">Step 7. AuthMiddleware</a><a href="#p2-step8">Step 8. Read All Items</a><a href="#p2-step8b">Step 8b. A Basic View: List</a><a href="#p2-step9">Step 9. Create An Item (Transaction)</a><a href="#p2-step9b">Step 9b. View: Add Item</a><a href="#p2-step10">Step 10. Read One &amp; Summary</a><a href="#p2-step11">Step 11. Update And Delete</a><a href="#p2-step11b">Step 11b. View: Edit &amp; Delete</a><a href="#p2-step12">Step 12. Harden The Front Controller</a><a href="#p2-step13">Step 13. Search &amp; Filtering (Optional)</a><a href="#p2-reference">Memory Tips &amp; Common Errors</a><a href="#p2-exam">Written Exam Reviewer (86 SAG items + 15)</a><a href="#p2-checklist">Final Checklist</a><a href="#p2-appendix">Appendix. Final Version Of Every File</a></nav><main><header class="pagehead"><h1>Day 2 &mdash; PHP + MySQL Code Playbook: OOP, Auth &amp; CRUD APIs</h1><p>Vanilla object-oriented PHP edition. Every file starts small and grows, so you can run and test from Step 3 onward. Verified against a real, running project.</p></header><section id="p2-before"><h2>How To Use This Playbook</h2><p>This is the PHP + MySQL translation of the Day 2 code playbook: vanilla, object-oriented PHP, no framework, no Composer package. Same progressive-build edition &mdash; every file starts small and grows, so you can run and test from Step 3 onward. Same 4-table schema, same endpoints, same security ideas (hashed passwords, signed tokens, prepared statements, transactions) as the Node/Express edition, so everything you already rehearsed there about <i>why</i> each piece exists still applies. What changes is only the syntax and the fact that PHP gives you none of Express's plumbing for free.</p><div class="callout warn"><b>THIS WAS ACTUALLY BUILT AND TESTED</b>Every code block in this playbook is copied from a real, running project in <code class="inline">php_mysql/reference-app</code> next to this guide. It was started with <code class="inline">php -S</code>, exercised end to end &mdash; register, duplicate rejection, login, wrong password, protected create, transaction, joins, search filter, read one, 404, summary, partial update, delete, repeat-delete 404, tampered-token rejection &mdash; and every response matched what this guide tells you to expect. Use the finished copy to check yourself after a practice run, not to copy from during one.</div><h3>Build Order At A Glance</h3><table><thead><tr><th>Step</th><th>File(s) you touch</th><th>What you gain</th></tr></thead><tbody><tr><td>1</td><td>database/schema.sql</td><td>The 4 tables the API will talk to.</td></tr><tr><td>2</td><td>autoload.php + src/Core/Env.php + src/Config/Database.php</td><td>A working autoloader, a .env reader, and a PDO connection, proven to connect.</td></tr><tr><td>3</td><td>public/index.php VERSION 1</td><td>A running front controller with a health check. Testing becomes possible.</td></tr><tr><td>4</td><td>src/Controllers/AuthController.php VERSION 1</td><td>Register logic: hash the password, insert the user.</td></tr><tr><td>5</td><td>src/Core/Router.php, Request.php + index.php V2</td><td>POST /register is reachable. First Postman test.</td></tr><tr><td>6</td><td>AuthController V2 + src/Core/Jwt.php</td><td>Login, and your JWT token.</td></tr><tr><td>7</td><td>src/Middlewares/AuthMiddleware.php</td><td>The guard that checks the token on protected routes.</td></tr><tr><td>8</td><td>ItemController V1 + index.php V3</td><td>Read all items using INNER JOIN and LEFT JOIN.</td></tr><tr><td>9</td><td>ItemController V2</td><td>Create an item inside a PDO transaction, protected by JWT.</td></tr><tr><td>10</td><td>ItemController V3</td><td>Read one item, plus the GROUP BY / HAVING summary.</td></tr><tr><td>11</td><td>ItemController FINAL</td><td>Update and Delete. CRUD is complete.</td></tr><tr><td>12</td><td>public/index.php FINAL</td><td>Security headers, CORS, 404 handling and one error handler.</td></tr></tbody></table><h3>Before You Start: Day 1 Must Already Be Done</h3><p>This playbook assumes <a href="day-1-command-playbook.html">Day 1 (PHP edition)</a> finished, so you already have:</p><ul><li>The folder tesda-backend-api-php with the OOP folder structure and empty starter files.</li><li>A .env file holding DB_HOST, DB_USER, DB_PASS, DB_NAME, JWT_SECRET and API_KEY.</li><li>PHP 8.1+ with pdo_mysql confirmed working.</li></ul><div class="callout why"><b>IF YOU SCAFFOLDED WITH ScaPExpress</b>Day 1 Phase 1 Step 2 (Create Folder Structure) already wrote <code class="inline">autoload.php</code> and the five <code class="inline">src/Core/</code> classes in full, and left <code class="inline">Database.php</code>, <code class="inline">AuthMiddleware.php</code> and <code class="inline">public/index.php</code> as placeholders naming their snippet. Where a step below says NEW FILE for one of the Core classes, open the file the extension wrote and compare it with the listing instead of retyping &mdash; the code is line-for-line the same, only the comments are worded differently. For every other file, type the snippet on the line under <code class="inline">&lt;?php</code> (<code class="inline">sx-db</code>, <code class="inline">sx-auth-middleware</code>, <code class="inline">sx-server-min</code>, and for controllers <code class="inline">sx-controller</code> then <code class="inline">api/register</code>, <code class="inline">api/login</code>, <code class="inline">api/get</code>, <code class="inline">api/create</code>, <code class="inline">api/get-id</code>, <code class="inline">api/summary</code>, <code class="inline">api/update</code>, <code class="inline">api/delete</code>). No <code class="inline">&lt;?php</code> on line 1 means no PHP snippets appear at all.</div><h3>Target Folder Structure (you fill these gradually)</h3><div class="codeblock"><div class="codecap"><span>folder structure</span><button type="button">copy</button></div><pre>tesda-backend-api-php/
+|-- .env
+|-- autoload.php               &lt;- Step 2
+|-- database/
+|   \-- schema.sql             &lt;- Step 1
+|-- docs/
+|-- public/
+|   |-- index.php              &lt;- grows in Steps 3, 5, 8, 12
+|   \-- items.html             &lt;- grows in Steps 8b, 9b, 11b
+\-- src/
+    |-- Core/
+    |   |-- Env.php            &lt;- Step 2
+    |   |-- Response.php       &lt;- Step 3
+    |   |-- Request.php        &lt;- Step 5
+    |   |-- Router.php         &lt;- Step 5
+    |   \-- Jwt.php            &lt;- Step 6
+    |-- Config/
+    |   \-- Database.php       &lt;- Step 2
+    |-- Controllers/
+    |   |-- AuthController.php &lt;- grows in Steps 4, 6
+    |   \-- ItemController.php &lt;- grows in Steps 8, 9, 10, 11
+    \-- Middlewares/
+        \-- AuthMiddleware.php &lt;- Step 7</pre></div><h3>The 3-Tier MVC Flow, One Sentence Each</h3><ul><li><b>Router</b> (src/Core/Router.php) matches the URL and the HTTP method, then hands the request to a controller &mdash; PHP has no built-in equivalent, so this playbook writes one in about 60 lines.</li><li><b>Middleware</b> (src/Middlewares) runs between the route and the controller to check the JWT token.</li><li><b>Controller</b> (src/Controllers) holds the business logic and writes the SQL query, using PDO prepared statements.</li><li><b>Config</b> (src/Config/Database.php) owns the one PDO connection every controller reuses for the request.</li><li><b>public/index.php</b> is the front controller: every request that is not a static file lands here first.</li></ul></section><section id="p2-step1"><h2>Step 1. Database Schema (database/schema.sql)</h2><div class="callout why"><b>WHY THIS STEP NOW</b>Identical reasoning to the Node edition: nothing can be tested until the tables exist. Same 4-table design, so every SQL concept you already learned &mdash; joins, transactions, GROUP BY/HAVING &mdash; transfers directly.</div><div class="callout newf"><b>NEW FILE</b>database/schema.sql &mdash; type the whole file.</div><div class="codeblock"><div class="codecap"><span>database/schema.sql</span><button type="button">copy</button></div><pre>-- TESDA NC III Back-End Assessment: PHP + MySQL OOP version
+-- Same 4-table design as the Node/Express version, so the concepts transfer directly.
+
+CREATE DATABASE IF NOT EXISTS tesda_assessment_db;
+USE tesda_assessment_db;
+
+-- 1. Users Table (for Authentication)
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. Categories Table (for Relationships &amp; Joins)
+CREATE TABLE IF NOT EXISTS categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 3. Items Table (for CRUD operations)
+CREATE TABLE IF NOT EXISTS items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(150) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    category_id INT NULL,
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- 4. Activity Logs Table (for Database Transactions testing)
+CREATE TABLE IF NOT EXISTS activity_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    action VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Seed Initial Categories for quick testing
+INSERT IGNORE INTO categories (id, name) VALUES
+(1, 'Electronics'),
+(2, 'Office Supplies'),
+(3, 'Furniture');</pre></div><ul><li>users.password is VARCHAR(255) &mdash; PHP's own password_hash() output fits comfortably, same as a bcryptjs hash did.</li><li>items.category_id is nullable with ON DELETE SET NULL; items.user_id is ON DELETE CASCADE &mdash; unchanged from the Node schema.</li><li>activity_logs exists so Step 9's transaction has a second table to write to.</li></ul><div class="callout run"><b>RUN IT NOW</b>Execute the file in phpMyAdmin, MySQL Workbench, or the command line, then verify.</div><div class="codeblock"><div class="codecap"><span>terminal</span><button type="button">copy</button></div><pre>mysql -u root -e "USE tesda_assessment_db; SHOW TABLES;"</pre></div><p>Expected: activity_logs, categories, items, users.</p></section><section id="p2-step2"><h2>Step 2. Autoloader &amp; Database Connection</h2><div class="callout why"><b>WHY THIS STEP NOW</b>Two things have to exist before any class can be written: a way for PHP to find your classes without a giant pile of require statements, and one shared way to reach MySQL. Both are small enough to write and trust immediately.</div><div class="callout newf"><b>NEW FILE</b>autoload.php &mdash; type the whole file. This sits at the project root, next to .env, not inside src/.</div><div class="codeblock"><div class="codecap"><span>autoload.php</span><button type="button">copy</button></div><pre>&lt;?php
+
+/**
+ * A hand-written autoloader, standing in for Composer's vendor/autoload.php.
+ * Vanilla PHP has no built-in autoloading, so every class file must be
+ * required manually — or, once, here. Maps the App\ namespace onto the
+ * src/ folder: App\Controllers\ItemController -&gt; src/Controllers/ItemController.php
+ */
+spl_autoload_register(function (string $class): void {
+    $prefix = 'App\\';
+    if (!str_starts_with($class, $prefix)) {
+        return;
+    }
+    $relative = substr($class, strlen($prefix));
+    $path = __DIR__ . '/src/' . str_replace('\\', '/', $relative) . '.php';
+    if (is_file($path)) {
+        require $path;
+    }
+});</pre></div><ul><li><code class="inline">spl_autoload_register</code> tells PHP "call this function whenever you hit a class name you don't recognize yet."</li><li>The namespace <code class="inline">App\Controllers\ItemController</code> maps onto the file path <code class="inline">src/Controllers/ItemController.php</code> &mdash; same convention Composer's PSR-4 autoloading uses, written by hand instead of generated.</li><li>This is the entire "dependency management" story for this project. There is no vendor/ folder because there is nothing to put in it.</li></ul><div class="callout newf"><b>NEW FILE</b>src/Core/Env.php &mdash; type the whole file. This is PHP's stand-in for the dotenv package, and it has to exist before Database.php because Database.php reads the DB_* values through it.</div><div class="codeblock"><div class="codecap"><span>src/Core/Env.php</span><button type="button">copy</button></div><pre>&lt;?php
+
+namespace App\Core;
+
+/**
+ * Tiny .env loader. No Composer package, so this class is the entire
+ * dependency: read KEY=VALUE lines and put them into the environment.
+ */
+class Env
+{
+    public static function load(string $path): void
+    {
+        if (!is_file($path)) {
+            return;
+        }
+
+        foreach (file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+            $line = trim($line);
+            if ($line === '' || str_starts_with($line, '#')) {
+                continue;
+            }
+            [$key, $value] = array_pad(explode('=', $line, 2), 2, '');
+            $key = trim($key);
+            $value = trim($value);
+            if ($key === '') {
+                continue;
+            }
+            putenv("{$key}={$value}");
+            $_ENV[$key] = $value;
+        }
+    }
+
+    public static function get(string $key, ?string $default = null): ?string
+    {
+        $value = getenv($key);
+        return $value === false ? $default : $value;
+    }
+}</pre></div><ul><li>PHP has no built-in .env reader. <code class="inline">Env::load()</code> does the one job <code class="inline">require('dotenv').config()</code> does in the Node edition: read KEY=VALUE lines and put them into the environment with <code class="inline">putenv()</code>.</li><li><code class="inline">Env::get('DB_USER', 'root')</code> returns the value from .env; the second argument is only a fallback when the key is missing. If you created the non-root <code class="inline">tesda_app</code> user on Day 1, this is what makes the API actually use it.</li></ul><div class="callout newf"><b>NEW FILE</b>src/Config/Database.php &mdash; type the whole file.</div><div class="codeblock"><div class="codecap"><span>src/Config/Database.php</span><button type="button">copy</button></div><pre>&lt;?php
+
+namespace App\Config;
+
+use App\Core\Env;
+use PDO;
+use PDOException;
+
+/**
+ * One shared PDO connection for the whole request, the same role
+ * db.js's connection pool plays in the Node version. PHP does not need
+ * a real pool the way Node does, since a fresh PHP process (and a
+ * fresh PDO connection) is created per request by the web server —
+ * this class just avoids opening the connection twice in one request.
+ */
+class Database
+{
+    private static ?PDO $connection = null;
+
+    public static function getConnection(): PDO
+    {
+        if (self::$connection === null) {
+            $host = Env::get('DB_HOST', 'localhost');
+            $name = Env::get('DB_NAME', 'tesda_assessment_db');
+            $user = Env::get('DB_USER', 'root');
+            $pass = Env::get('DB_PASS', '');
+
+            $dsn = "mysql:host={$host};dbname={$name};charset=utf8mb4";
+
+            try {
+                self::$connection = new PDO($dsn, $user, $pass, [
+                    PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE =&gt; PDO::FETCH_ASSOC,
+                ]);
+            } catch (PDOException $e) {
+                http_response_code(500);
+                header('Content-Type: application/json');
+                echo json_encode(['status' =&gt; 'error', 'message' =&gt; 'Database connection error: ' . $e-&gt;getMessage()]);
+                exit;
+            }
+        }
+
+        return self::$connection;
+    }
+}</pre></div><ul><li>PDO is PHP's own object-oriented database layer &mdash; no external package needed, unlike Node where mysql2 has to be installed.</li><li><code class="inline">PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION</code> is what makes a bad query throw instead of silently returning false &mdash; without it, bugs go quiet.</li><li>The static <code class="inline">$connection</code> property means one PDO object per request, reused by every controller that calls <code class="inline">Database::getConnection()</code> &mdash; the PHP-appropriate equivalent of Node's connection pool. (A pool matters more in Node because one Node process serves many requests over time; PHP's built-in server and Apache/PHP-FPM both start a fresh process per request, so there is nothing to pool between requests &mdash; only within one.)</li></ul><div class="callout run"><b>RUN IT NOW</b>Prove the connection with a one-line throwaway script, run from the project root (where .env lives). Env::load must run before getConnection(), otherwise Database.php falls back to root with no password and never tests your real .env values.</div><div class="codeblock"><div class="codecap"><span>terminal</span><button type="button">copy</button></div><pre>php -r "require 'autoload.php'; App\Core\Env::load('.env'); App\Config\Database::getConnection(); echo 'Connected to MySQL successfully.' . PHP_EOL;"</pre></div><p>Expected: Connected to MySQL successfully. If it fails, check the four DB_* values in .env and that MySQL is running.</p></section><section id="p2-step3"><h2>Step 3. Minimal Front Controller (public/index.php VERSION 1)</h2><div class="callout why"><b>WHY THIS STEP NOW</b>Same reasoning as server.js VERSION 1 in the Node edition: get something you can start and hit with Postman as early as possible, in its smallest useful form.</div><div class="callout newf"><b>NEW FILE</b>src/Core/Response.php &mdash; type the whole file. Every response in this project goes through it.</div><div class="codeblock"><div class="codecap"><span>src/Core/Response.php</span><button type="button">copy</button></div><pre>&lt;?php
+
+namespace App\Core;
+
+/**
+ * One place that turns PHP data into the same JSON envelope shape used
+ * throughout this API: { status, message?, data?, count? }.
+ */
+class Response
+{
+    public static function json(array $payload, int $statusCode = 200): void
+    {
+        http_response_code($statusCode);
+        header('Content-Type: application/json');
+        echo json_encode($payload);
+        exit;
+    }
+
+    public static function success(array $extra = [], int $statusCode = 200): void
+    {
+        self::json(array_merge(['status' =&gt; 'success'], $extra), $statusCode);
+    }
+
+    public static function error(string $message, int $statusCode = 500): void
+    {
+        self::json(['status' =&gt; 'error', 'message' =&gt; $message], $statusCode);
+    }
+}</pre></div><div class="callout newf"><b>NEW FILE</b>public/index.php &mdash; VERSION 1. Just the health check.</div><div class="codeblock"><div class="codecap"><span>public/index.php (version 1)</span><button type="button">copy</button></div><pre>&lt;?php
+
+// public/index.php - VERSION 1 (minimal runnable front controller)
+require __DIR__ . '/../autoload.php';
+
+use App\Core\Env;
+use App\Core\Response;
+
+Env::load(__DIR__ . '/../.env');
+
+$requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+if ($requestPath === '/') {
+    Response::json([
+        'status' =&gt; 'online',
+        'message' =&gt; 'TESDA NC III Backend API Server Running (PHP)',
+        'version' =&gt; 'v1.0.0',
+    ]);
+}
+
+Response::error('Endpoint Not Found', 404);</pre></div><p>What each line buys you:</p><ul><li><code class="inline">Response::json()</code> centralizes the one thing every endpoint needs: set the status code, set the JSON header, echo, stop. Writing this once now means no controller ever repeats it.</li><li><code class="inline">Env::load()</code> runs first on every request, before anything can touch the database &mdash; the same reason <code class="inline">require('dotenv').config()</code> is the first line of server.js in the Node edition. It stays in this position through every later version of the file.</li><li>There is no router yet &mdash; just one hand-checked path. That is deliberate; Step 5 is where routing earns its keep, once there is more than one URL to dispatch.</li></ul><div class="callout run"><b>RUN IT NOW</b>Start PHP's built-in server, pointed at the public/ folder.</div><div class="codeblock"><div class="codecap"><span>terminal</span><button type="button">copy</button></div><pre>php -S localhost:3000 -t public</pre></div><p>Then open http://localhost:3000 in a browser, or GET it in Postman. Expected 200 OK:</p><div class="codeblock"><div class="codecap"><span>response</span><button type="button">copy</button></div><pre>{
+  "status": "online",
+  "message": "TESDA NC III Backend API Server Running (PHP)",
+  "version": "v1.0.0"
+}</pre></div><div class="callout warn"><b>TIP</b>PHP's built-in server logs every request to the terminal it runs in and needs no nodemon-style watcher &mdash; edit a .php file and reload the browser, no restart needed. Keep this terminal running and use a second one for everything else.</div></section><section id="p2-step4"><h2>Step 4. Register Logic (src/Controllers/AuthController.php VERSION 1)</h2><div class="callout why"><b>WHY THIS STEP NOW</b>Same as the Node edition: write register in isolation first, so the only new idea is hashing a password before storing it.</div><div class="callout newf"><b>NEW FILE</b>src/Controllers/AuthController.php &mdash; VERSION 1, register only.</div><div class="codeblock"><div class="codecap"><span>src/Controllers/AuthController.php (version 1)</span><button type="button">copy</button></div><pre>&lt;?php
+
+namespace App\Controllers;
+
+use App\Config\Database;
+use App\Core\Request;
+use App\Core\Response;
+
+class AuthController
+{
+    // POST /api/v1/auth/register
+    public function register(Request $request): void
+    {
+        $username = $request-&gt;body['username'] ?? null;
+        $email = $request-&gt;body['email'] ?? null;
+        $password = $request-&gt;body['password'] ?? null;
+
+        if (!$username || !$email || !$password) {
+            Response::error('All fields are required.', 400);
+        }
+
+        $db = Database::getConnection();
+
+        $stmt = $db-&gt;prepare('SELECT id FROM users WHERE email = ? OR username = ?');
+        $stmt-&gt;execute([$email, $username]);
+
+        if ($stmt-&gt;fetch() !== false) {
+            Response::error('Username or email already in use.', 400);
+        }
+
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+        $stmt = $db-&gt;prepare('INSERT INTO users (username, email, password) VALUES (?, ?, ?)');
+        $stmt-&gt;execute([$username, $email, $hashedPassword]);
+
+        Response::success([
+            'message' =&gt; 'User registered successfully.',
+            'userId' =&gt; (int) $db-&gt;lastInsertId(),
+        ], 201);
+    }
+}</pre></div><p>Points the assessor listens for &mdash; and where PHP is genuinely simpler than Node here:</p><ul><li>The <code class="inline">?</code> placeholders are prepared-statement placeholders, exactly like mysql2's &mdash; still what stops SQL injection.</li><li><code class="inline">password_hash($password, PASSWORD_BCRYPT)</code> is a PHP core function. There is no bcryptjs to install: hashing a password needs zero external packages in PHP.</li><li><code class="inline">Response::error()</code> calls <code class="inline">exit</code> internally, so it behaves like Node's <code class="inline">return res.status(400).json(...)</code> &mdash; execution stops right there, nothing below it runs.</li></ul><p>There is nothing to run yet &mdash; this function has no Request object being built for it and no URL routed to it. That is Step 5.</p></section><section id="p2-step5"><h2>Step 5. Router, Request &amp; Wiring Register (index.php VERSION 2)</h2><div class="callout why"><b>WHY THIS STEP NOW</b>This is where register finally becomes reachable. Three small pieces: a Request object a controller can read, a Router that matches method+path to a controller method, and two lines in index.php that wire it all together.</div><div class="callout newf"><b>NEW FILE</b>src/Core/Request.php &mdash; type the whole file.</div><div class="codeblock"><div class="codecap"><span>src/Core/Request.php</span><button type="button">copy</button></div><pre>&lt;?php
+
+namespace App\Core;
+
+/**
+ * Bundles the three things a controller ever needs to read, matching
+ * the Express req object: route params (req.params), the query string
+ * (req.query), and the parsed JSON body (req.body). $user is filled in
+ * by AuthMiddleware, the same way req.user is filled in by the Node
+ * middleware, and is null until a route runs the middleware.
+ */
+class Request
+{
+    public array $params;
+    public array $query;
+    public array $body;
+    public ?array $user = null;
+
+    public function __construct(array $params = [])
+    {
+        $this-&gt;params = $params;
+        $this-&gt;query = $_GET;
+        $this-&gt;body = self::parseJsonBody();
+    }
+
+    public function header(string $name): ?string
+    {
+        $key = 'HTTP_' . strtoupper(str_replace('-', '_', $name));
+        return $_SERVER[$key] ?? null;
+    }
+
+    private static function parseJsonBody(): array
+    {
+        $raw = file_get_contents('php://input');
+        if ($raw === false || $raw === '') {
+            return [];
+        }
+        $decoded = json_decode($raw, true);
+        return is_array($decoded) ? $decoded : [];
+    }
+}</pre></div><div class="callout newf"><b>NEW FILE</b>src/Core/Router.php &mdash; type the whole file.</div><div class="codeblock"><div class="codecap"><span>src/Core/Router.php</span><button type="button">copy</button></div><pre>&lt;?php
+
+namespace App\Core;
+
+/**
+ * A deliberately small router: register method+pattern pairs, then
+ * dispatch one request. Patterns use :name for a single path segment,
+ * e.g. '/api/v1/items/:id'. Routes are matched in registration order,
+ * top to bottom — same rule as Express, which is why /summary must
+ * still be registered before /:id.
+ */
+class Router
+{
+    private array $routes = [];
+
+    public function get(string $pattern, callable $handler, array $middlewares = []): void
+    {
+        $this-&gt;add('GET', $pattern, $handler, $middlewares);
+    }
+
+    public function post(string $pattern, callable $handler, array $middlewares = []): void
+    {
+        $this-&gt;add('POST', $pattern, $handler, $middlewares);
+    }
+
+    public function put(string $pattern, callable $handler, array $middlewares = []): void
+    {
+        $this-&gt;add('PUT', $pattern, $handler, $middlewares);
+    }
+
+    public function delete(string $pattern, callable $handler, array $middlewares = []): void
+    {
+        $this-&gt;add('DELETE', $pattern, $handler, $middlewares);
+    }
+
+    private function add(string $method, string $pattern, callable $handler, array $middlewares): void
+    {
+        $this-&gt;routes[] = compact('method', 'pattern', 'handler', 'middlewares');
+    }
+
+    public function dispatch(string $method, string $uri): void
+    {
+        $path = parse_url($uri, PHP_URL_PATH);
+
+        foreach ($this-&gt;routes as $route) {
+            if ($route['method'] !== $method) {
+                continue;
+            }
+            $params = $this-&gt;match($route['pattern'], $path);
+            if ($params === null) {
+                continue;
+            }
+
+            $request = new Request($params);
+            foreach ($route['middlewares'] as $middleware) {
+                $middleware($request);
+            }
+            ($route['handler'])($request);
+            return;
+        }
+
+        Response::error('Endpoint Not Found', 404);
+    }
+
+    /** Returns an array of named params on match, or null if this pattern does not match. */
+    private function match(string $pattern, string $path): ?array
+    {
+        $patternParts = explode('/', trim($pattern, '/'));
+        $pathParts = explode('/', trim($path, '/'));
+
+        if (count($patternParts) !== count($pathParts)) {
+            return null;
+        }
+
+        $params = [];
+        foreach ($patternParts as $i =&gt; $part) {
+            if (str_starts_with($part, ':')) {
+                $params[substr($part, 1)] = $pathParts[$i];
+            } elseif ($part !== $pathParts[$i]) {
+                return null;
+            }
+        }
+        return $params;
+    }
+}</pre></div><div class="callout addf"><b>ADD TO EXISTING FILE</b>public/index.php &mdash; VERSION 2. Replace the whole file with this.</div><div class="codeblock"><div class="codecap"><span>public/index.php (version 2)</span><button type="button">copy</button></div><pre>&lt;?php
+
+// public/index.php - VERSION 2 (routing added; health check and Env::load kept from VERSION 1)
+require __DIR__ . '/../autoload.php';
+
+use App\Controllers\AuthController;
+use App\Core\Env;
+use App\Core\Response;
+use App\Core\Router;
+
+Env::load(__DIR__ . '/../.env');
+
+$requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+if ($requestPath === '/') {
+    Response::json([
+        'status' =&gt; 'online',
+        'message' =&gt; 'TESDA NC III Backend API Server Running (PHP)',
+        'version' =&gt; 'v1.0.0',
+    ]);
+}
+
+$router = new Router();
+$auth = new AuthController();
+
+$router-&gt;post('/api/v1/auth/register', [$auth, 'register']);
+
+$router-&gt;dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);</pre></div><p>Two ideas to be able to explain out loud:</p><ul><li>PHP has no <code class="inline">req</code>/<code class="inline">res</code> objects the way Express does. Request.php is that missing piece: it reads <code class="inline">php://input</code> once, JSON-decodes it, and hands the result back as <code class="inline">$request-&gt;body</code> &mdash; the direct equivalent of <code class="inline">app.use(express.json())</code> plus <code class="inline">req.body</code> combined into one small class.</li><li>The health check from VERSION 1 stays above the router. The hard-coded 404 at the bottom of VERSION 1 is gone: Router::dispatch() now answers 404 for anything it cannot match.</li><li>Router.php matches routes top to bottom, exactly like Express &mdash; which is why Step 10 will still need <code class="inline">/summary</code> registered before <code class="inline">/:id</code>, same trap as the Node edition.</li></ul><div class="callout run"><b>RUN IT NOW</b>Restart php -S (or just reload &mdash; the built-in server re-reads files per request) and test in Postman.</div><ol><li>POST http://localhost:3000/api/v1/auth/register</li><li>Body, raw JSON:</li></ol><div class="codeblock"><div class="codecap"><span>request body</span><button type="button">copy</button></div><pre>{
+  "username": "candidate1",
+  "email": "candidate1@tesda.gov.ph",
+  "password": "Password123!"
+}</pre></div><p>Expected 201 Created:</p><div class="codeblock"><div class="codecap"><span>response</span><button type="button">copy</button></div><pre>{
+  "status": "success",
+  "message": "User registered successfully.",
+  "userId": 1
+}</pre></div><p>Send it twice; the second attempt must return 400. Then prove the hash reached MySQL:</p><div class="codeblock"><div class="codecap"><span>terminal</span><button type="button">copy</button></div><pre>mysql -u root -e "USE tesda_assessment_db; SELECT id, username, LEFT(password,10) AS hash FROM users;"</pre></div><p>The hash preview starts with <code class="inline">$2y$</code> (PHP's bcrypt identifier &mdash; Node's bcryptjs uses <code class="inline">$2a$</code>/<code class="inline">$2b$</code>; same algorithm, different library prefix), never the plain password.</p></section><section id="p2-step6"><h2>Step 6. Login &amp; JWT (AuthController VERSION 2)</h2><div class="callout why"><b>WHY THIS STEP NOW</b>You have a user but no way to prove who you are on the next request. Login checks the password and issues a signed token, exactly like the Node edition's jsonwebtoken step &mdash; except this playbook writes the token library itself, in about 40 lines, since vanilla PHP ships no JWT support.</div><div class="callout newf"><b>NEW FILE</b>src/Core/Jwt.php &mdash; type the whole file.</div><div class="codeblock"><div class="codecap"><span>src/Core/Jwt.php</span><button type="button">copy</button></div><pre>&lt;?php
+
+namespace App\Core;
+
+/**
+ * A minimal HS256 JWT: header.payload.signature, base64url-encoded,
+ * signed with hash_hmac. No Composer package — this is the whole library.
+ * Same shape as the jsonwebtoken version: header {alg, typ}, payload
+ * carries id/username/role plus an exp claim, signature is HMAC-SHA256.
+ */
+class Jwt
+{
+    public static function encode(array $payload, string $secret, int $expiresInSeconds = 7200): string
+    {
+        $header = ['alg' =&gt; 'HS256', 'typ' =&gt; 'JWT'];
+        $payload['iat'] = time();
+        $payload['exp'] = time() + $expiresInSeconds;
+
+        $segments = [
+            self::base64UrlEncode(json_encode($header)),
+            self::base64UrlEncode(json_encode($payload)),
+        ];
+
+        $signature = hash_hmac('sha256', implode('.', $segments), $secret, true);
+        $segments[] = self::base64UrlEncode($signature);
+
+        return implode('.', $segments);
+    }
+
+    /**
+     * Returns the decoded payload array on success, or null on any
+     * failure: malformed token, bad signature, or expired.
+     */
+    public static function decode(string $token, string $secret): ?array
+    {
+        $parts = explode('.', $token);
+        if (count($parts) !== 3) {
+            return null;
+        }
+        [$headerB64, $payloadB64, $signatureB64] = $parts;
+
+        $expectedSignature = hash_hmac('sha256', "{$headerB64}.{$payloadB64}", $secret, true);
+        $actualSignature = self::base64UrlDecode($signatureB64);
+
+        if (!hash_equals($expectedSignature, $actualSignature)) {
+            return null;
+        }
+
+        $payload = json_decode(self::base64UrlDecode($payloadB64), true);
+        if (!is_array($payload)) {
+            return null;
+        }
+
+        if (isset($payload['exp']) &amp;&amp; time() &gt;= $payload['exp']) {
+            return null;
+        }
+
+        return $payload;
+    }
+
+    private static function base64UrlEncode(string $data): string
+    {
+        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+    }
+
+    private static function base64UrlDecode(string $data): string
+    {
+        $padded = str_pad($data, strlen($data) % 4 === 0 ? strlen($data) : strlen($data) + (4 - strlen($data) % 4), '=');
+        return base64_decode(strtr($padded, '-_', '+/'));
+    }
+}</pre></div><ul><li>A JWT is just three base64url pieces joined by dots: header, payload, signature. <code class="inline">hash_hmac('sha256', ..., $secret, true)</code> is PHP's built-in HMAC-SHA256 &mdash; the same algorithm jsonwebtoken uses under HS256, just called directly instead of through a library.</li><li><code class="inline">hash_equals()</code> instead of <code class="inline">===</code> for comparing signatures matters: it runs in constant time, so an attacker cannot use response-time differences to guess the correct signature one byte at a time (a timing attack).</li><li>The <code class="inline">exp</code> claim is checked inside <code class="inline">decode()</code> itself &mdash; an expired token fails verification the same way a tampered one does, both simply return null.</li></ul><div class="callout addf"><b>ADD TO EXISTING FILE</b>src/Controllers/AuthController.php &mdash; VERSION 2 (FINAL). Replace the whole file.</div><div class="codeblock"><div class="codecap"><span>src/Controllers/AuthController.php (final)</span><button type="button">copy</button></div><pre>&lt;?php
+
+namespace App\Controllers;
+
+use App\Config\Database;
+use App\Core\Env;
+use App\Core\Jwt;
+use App\Core\Request;
+use App\Core\Response;
+use PDO;
+
+class AuthController
+{
+    // POST /api/v1/auth/register
+    public function register(Request $request): void
+    {
+        $username = $request-&gt;body['username'] ?? null;
+        $email = $request-&gt;body['email'] ?? null;
+        $password = $request-&gt;body['password'] ?? null;
+
+        if (!$username || !$email || !$password) {
+            Response::error('All fields are required.', 400);
+        }
+
+        $db = Database::getConnection();
+
+        $stmt = $db-&gt;prepare('SELECT id FROM users WHERE email = ? OR username = ?');
+        $stmt-&gt;execute([$email, $username]);
+
+        if ($stmt-&gt;fetch() !== false) {
+            Response::error('Username or email already in use.', 400);
+        }
+
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+        $stmt = $db-&gt;prepare('INSERT INTO users (username, email, password) VALUES (?, ?, ?)');
+        $stmt-&gt;execute([$username, $email, $hashedPassword]);
+
+        Response::success([
+            'message' =&gt; 'User registered successfully.',
+            'userId' =&gt; (int) $db-&gt;lastInsertId(),
+        ], 201);
+    }
+
+    // POST /api/v1/auth/login
+    public function login(Request $request): void
+    {
+        $email = $request-&gt;body['email'] ?? null;
+        $password = $request-&gt;body['password'] ?? null;
+
+        if (!$email || !$password) {
+            Response::error('Email and password are required.', 400);
+        }
+
+        $db = Database::getConnection();
+        $stmt = $db-&gt;prepare('SELECT * FROM users WHERE email = ?');
+        $stmt-&gt;execute([$email]);
+        $user = $stmt-&gt;fetch();
+
+        if ($user === false) {
+            Response::error('Invalid credentials.', 401);
+        }
+
+        if (!password_verify($password, $user['password'])) {
+            Response::error('Invalid credentials.', 401);
+        }
+
+        $payload = ['id' =&gt; (int) $user['id'], 'username' =&gt; $user['username'], 'role' =&gt; $user['role']];
+        $token = Jwt::encode($payload, Env::get('JWT_SECRET', 'fallback_secret'), 7200);
+
+        Response::success([
+            'message' =&gt; 'Login successful.',
+            'token' =&gt; $token,
+        ]);
+    }
+}</pre></div><div class="callout addf"><b>ADD TO EXISTING FILE</b>public/index.php. Add the login route.</div><div class="codeblock"><div class="codecap"><span>public/index.php (additions)</span><button type="button">copy</button></div><pre>$router-&gt;post('/api/v1/auth/login', [$auth, 'login']);   // &lt;== ADD THIS, under the register route</pre></div><ul><li>A wrong email and a wrong password both return the same 401 "Invalid credentials." &mdash; unchanged security reasoning from the Node edition.</li><li>The payload carries id, username and role only, expiring in 2 hours &mdash; identical shape to the Node token, so anything you rehearsed about JWT payload design still applies word for word.</li></ul><div class="callout run"><b>RUN IT NOW</b>Log in and copy the token. You need it for every write test from here on.</div><div class="codeblock"><div class="codecap"><span>request body</span><button type="button">copy</button></div><pre>{
+  "email": "candidate1@tesda.gov.ph",
+  "password": "Password123!"
+}</pre></div><div class="codeblock"><div class="codecap"><span>response</span><button type="button">copy</button></div><pre>{
+  "status": "success",
+  "message": "Login successful.",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}</pre></div></section><section id="p2-step7"><h2>Step 7. AuthMiddleware (src/Middlewares/AuthMiddleware.php)</h2><div class="callout why"><b>WHY THIS STEP NOW</b>You have a token but nothing checks it yet. Same role as auth.js in the Node edition: sit between the router and the controller, verify the token, and attach the decoded user to the request.</div><div class="callout newf"><b>NEW FILE</b>src/Middlewares/AuthMiddleware.php &mdash; type the whole file.</div><div class="codeblock"><div class="codecap"><span>src/Middlewares/AuthMiddleware.php</span><button type="button">copy</button></div><pre>&lt;?php
+
+namespace App\Middlewares;
+
+use App\Core\Env;
+use App\Core\Jwt;
+use App\Core\Request;
+use App\Core\Response;
+
+/**
+ * Verifies "Authorization: Bearer &lt;token&gt;" the same way src/middlewares/auth.js
+ * does in the Node version: no header at all is 401, a header that fails
+ * to verify is 403, and on success the decoded payload is attached to
+ * the request as $request-&gt;user so the controller knows who is calling.
+ */
+class AuthMiddleware
+{
+    public function __invoke(Request $request): void
+    {
+        $header = $request-&gt;header('Authorization');
+        $token = null;
+        if ($header !== null) {
+            $parts = explode(' ', $header);
+            $token = $parts[1] ?? null;
+        }
+
+        if (!$token) {
+            Response::error('Access Denied: No Token Provided', 401);
+        }
+
+        $payload = Jwt::decode($token, Env::get('JWT_SECRET', 'fallback_secret'));
+
+        if ($payload === null) {
+            Response::error('Invalid or Expired Token', 403);
+        }
+
+        $request-&gt;user = $payload;
+    }
+}</pre></div><ul><li>No token at all is 401 &mdash; the caller never identified itself.</li><li>A token that fails to decode (bad signature, or expired) is 403 &mdash; same status split as the Node edition.</li><li>On success, <code class="inline">$request-&gt;user</code> is filled in, the PHP equivalent of Node's <code class="inline">req.user</code>, and the Router's <code class="inline">dispatch()</code> method (written back in Step 5) is what actually calls this middleware before the controller, for any route registered with it as a third argument.</li></ul><p>Nothing to run yet on its own &mdash; a middleware only proves itself once a route uses it, which Step 9 does.</p></section><section id="p2-step8"><h2>Step 8. Read All Items (ItemController VERSION 1, index.php VERSION 3)</h2><div class="callout why"><b>WHY THIS STEP NOW</b>Start the CRUD module with the safest operation, a public read, and demonstrate INNER JOIN, LEFT JOIN and ORDER BY.</div><div class="callout newf"><b>NEW FILE</b>src/Controllers/ItemController.php &mdash; VERSION 1, one method for now.</div><div class="codeblock"><div class="codecap"><span>src/Controllers/ItemController.php (version 1)</span><button type="button">copy</button></div><pre>&lt;?php
+
+namespace App\Controllers;
+
+use App\Config\Database;
+use App\Core\Request;
+use App\Core\Response;
+
+class ItemController
+{
+    // GET /api/v1/items
+    public function getAll(Request $request): void
+    {
+        $db = Database::getConnection();
+        $stmt = $db-&gt;query("
+            SELECT
+                i.id, i.title, i.description, i.price, i.created_at,
+                c.name AS category_name,
+                u.username AS author_name,
+                u.email AS author_email
+            FROM items i
+            INNER JOIN users u ON i.user_id = u.id
+            LEFT JOIN categories c ON i.category_id = c.id
+            ORDER BY i.created_at DESC
+        ");
+        $items = $stmt-&gt;fetchAll();
+
+        Response::success(['count' =&gt; count($items), 'data' =&gt; $items]);
+    }
+}</pre></div><div class="callout addf"><b>ADD TO EXISTING FILE</b>public/index.php &mdash; VERSION 3.</div><div class="codeblock"><div class="codecap"><span>public/index.php (additions)</span><button type="button">copy</button></div><pre>use App\Controllers\ItemController;             // &lt;== ADD THIS
+
+$items = new ItemController();                    // &lt;== ADD THIS
+
+$router-&gt;get('/api/v1/items', [$items, 'getAll']); // &lt;== ADD THIS</pre></div><p>Same join reasoning as the Node edition: INNER JOIN users because every item must have an author; LEFT JOIN categories because category_id may be NULL.</p><div class="callout run"><b>RUN IT NOW</b>GET http://localhost:3000/api/v1/items. Expected 200 with an empty array &mdash; that is a pass, not a failure.</div><div class="codeblock"><div class="codecap"><span>response</span><button type="button">copy</button></div><pre>{
+  "status": "success",
+  "count": 0,
+  "data": []
+}</pre></div></section><section id="p2-step8b"><h2>Step 8b. Serve a Basic HTML View (Optional)</h2><div class="callout why"><b>WHY THIS STEP NOW</b>Same rationale as the Node edition's Step 8b: give the JSON API an actual View, so if an assessor asks "where is your View," there is something to point at other than a JSON blob.</div><div class="callout newf"><b>NEW FILE</b>public/items.html &mdash; VERSION 1.</div><div class="codeblock"><div class="codecap"><span>public/items.html (version 1)</span><button type="button">copy</button></div><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;&lt;meta charset="UTF-8"&gt;&lt;title&gt;Items&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Items&lt;/h1&gt;
+&lt;p id="status"&gt;Loading...&lt;/p&gt;
+&lt;table id="items-table" border="1" cellpadding="6" style="display:none"&gt;
+  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;ID&lt;/th&gt;&lt;th&gt;Title&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Price&lt;/th&gt;&lt;th&gt;Category&lt;/th&gt;&lt;th&gt;Author&lt;/th&gt;&lt;th&gt;Created&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;script&gt;
+async function loadItems() {
+  const status = document.getElementById('status');
+  try {
+    const res = await fetch('/api/v1/items');
+    const json = await res.json();
+    if (json.status !== 'success') { status.textContent = 'Error: ' + json.message; return; }
+    const tbody = document.querySelector('#items-table tbody');
+    tbody.innerHTML = '';
+    json.data.forEach(function(item) {
+      const row = document.createElement('tr');
+      [item.id, item.title, item.description, item.price, item.category_name, item.author_name, item.created_at]
+        .forEach(function(value) {
+          const cell = document.createElement('td');
+          cell.textContent = value === null ? '' : value;
+          row.appendChild(cell);
+        });
+      tbody.appendChild(row);
+    });
+    status.textContent = json.count + ' item(s) found.';
+    document.getElementById('items-table').style.display = '';
+  } catch (err) {
+    status.textContent = 'Could not reach the API: ' + err.message;
+  }
+}
+loadItems();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div><div class="callout addf"><b>ADD TO EXISTING FILE</b>public/index.php. Serve the public/ folder's own static files before the router runs.</div><div class="codeblock"><div class="codecap"><span>public/index.php (addition, right after the health check)</span><button type="button">copy</button></div><pre>$staticFile = __DIR__ . $requestPath;   // $requestPath already exists: the health check above uses it
+if ($requestPath !== '/' &amp;&amp; is_file($staticFile)) {
+    return false;   // tells php -S: serve this file yourself, don't run my router
+}</pre></div><p>This one line is doing the job <code class="inline">express.static()</code> does in the Node edition. <code class="inline">return false</code> is a feature of PHP's built-in server specifically: when the script that <code class="inline">php -S</code> routes every request through returns false, the server falls back to serving the requested path as a plain static file. (On Apache, the equivalent is an .htaccess rewrite rule that only forwards a request to index.php when the requested path is <i>not</i> an existing file.)</p><div class="callout run"><b>RUN IT NOW</b>Open http://localhost:3000/items.html &mdash; expect a table. Open http://localhost:3000/ again &mdash; expect the JSON health check still, not the items page.</div></section><section id="p2-step9"><h2>Step 9. Create An Item With A Transaction (ItemController VERSION 2)</h2><div class="callout why"><b>WHY THIS STEP NOW</b>The heaviest concept in the assessment, same as the Node edition: two tables, items and activity_logs, must be written together or not at all. PDO's transaction methods read almost identically to mysql2's.</div><div class="callout addf"><b>ADD TO EXISTING FILE</b>src/Controllers/ItemController.php. Append this method.</div><div class="codeblock"><div class="codecap"><span>append to the controller</span><button type="button">copy</button></div><pre>    // POST /api/v1/items (Create Item inside an ACID Database Transaction)
+    public function create(Request $request): void
+    {
+        $title = $request-&gt;body['title'] ?? null;
+        $description = $request-&gt;body['description'] ?? '';
+        $price = $request-&gt;body['price'] ?? null;
+        $categoryId = $request-&gt;body['category_id'] ?? null;
+        $userId = $request-&gt;user['id'] ?? null;
+
+        if (!$title || $price === null) {
+            Response::error('Title and price are required.', 400);
+        }
+
+        $db = Database::getConnection();
+
+        try {
+            $db-&gt;beginTransaction();
+
+            $stmt = $db-&gt;prepare(
+                'INSERT INTO items (title, description, price, category_id, user_id) VALUES (?, ?, ?, ?, ?)'
+            );
+            $stmt-&gt;execute([$title, $description, $price, $categoryId, $userId]);
+            $newItemId = (int) $db-&gt;lastInsertId();
+
+            $stmt = $db-&gt;prepare('INSERT INTO activity_logs (user_id, action) VALUES (?, ?)');
+            $stmt-&gt;execute([$userId, "Created item #{$newItemId}: \"{$title}\""]);
+
+            $db-&gt;commit();
+
+            Response::success([
+                'message' =&gt; 'Item created and activity logged successfully via Database Transaction.',
+                'itemId' =&gt; $newItemId,
+            ], 201);
+        } catch (Throwable $e) {
+            $db-&gt;rollBack();
+            Response::error($e-&gt;getMessage(), 500);
+        }
+    }</pre></div><p>Remember to add <code class="inline">use Throwable;</code> near the top of the file, next to the other use lines.</p><div class="callout addf"><b>ADD TO EXISTING FILE</b>public/index.php. Wire the protected route.</div><div class="codeblock"><div class="codecap"><span>public/index.php (additions)</span><button type="button">copy</button></div><pre>use App\Middlewares\AuthMiddleware;                          // &lt;== ADD THIS
+
+$authMiddleware = new AuthMiddleware();                        // &lt;== ADD THIS
+
+$router-&gt;post('/api/v1/items', [$items, 'create'], [$authMiddleware]);  // &lt;== ADD THIS</pre></div><ul><li>PDO's <code class="inline">beginTransaction()</code> / <code class="inline">commit()</code> / <code class="inline">rollBack()</code> map one-to-one onto mysql2's <code class="inline">beginTransaction()</code> / <code class="inline">commit()</code> / <code class="inline">rollback()</code> &mdash; same three moves, same order.</li><li>Unlike Node, there is no separate <code class="inline">getConnection()</code> for a dedicated connection: PDO's <code class="inline">$db</code> object already <i>is</i> the one connection for this request, so beginTransaction/commit/rollBack just apply directly to it. There is also no <code class="inline">release()</code> to remember &mdash; the connection closes automatically when the PHP request ends.</li><li><code class="inline">$request->user['id']</code> comes from AuthMiddleware, not from the request body &mdash; a caller cannot attribute an item to somebody else.</li></ul><div class="callout run"><b>RUN IT NOW</b>Test the failure case, then the success case, same as the Node edition.</div><ol><li>POST with a body but no Authorization header. Expected 401.</li><li>POST with Authorization: Bearer &lt;token&gt;. Expected 201.</li></ol><div class="codeblock"><div class="codecap"><span>request body</span><button type="button">copy</button></div><pre>{
+  "title": "Wireless Ergonomic Mouse",
+  "description": "Rechargeable 2.4GHz optical mouse",
+  "price": 850.00,
+  "category_id": 1
+}</pre></div><div class="codeblock"><div class="codecap"><span>terminal</span><button type="button">copy</button></div><pre>mysql -u root -e "USE tesda_assessment_db; SELECT * FROM activity_logs;"</pre></div></section><section id="p2-step9b"><h2>Step 9b. View: Add Item (Optional)</h2><div class="callout why"><b>WHY THIS STEP NOW</b>Step 9 just required a Bearer token for creating an item. The view needs a place to hold that token and a form to submit, right where the capability appears.</div><div class="callout addf"><b>ADD TO EXISTING FILE</b>public/items.html. Add above the table.</div><div class="codeblock"><div class="codecap"><span>public/items.html (add above the table)</span><button type="button">copy</button></div><pre>&lt;h2&gt;Add New Item&lt;/h2&gt;
+&lt;p&gt;Paste the JWT you copied during Step 6's login test:&lt;/p&gt;
+&lt;input type="text" id="token" placeholder="paste JWT here" style="width:100%"&gt;
+&lt;form id="item-form"&gt;
+  &lt;input type="text" id="title" placeholder="title" required&gt;
+  &lt;input type="text" id="description" placeholder="description"&gt;
+  &lt;input type="number" step="0.01" id="price" placeholder="price" required&gt;
+  &lt;input type="number" id="category_id" placeholder="category_id (optional)"&gt;
+  &lt;button type="submit"&gt;Create Item&lt;/button&gt;
+&lt;/form&gt;
+&lt;p id="form-status"&gt;&lt;/p&gt;</pre></div><div class="callout addf"><b>ADD TO EXISTING FILE</b>public/items.html. Add inside the &lt;script&gt;, above loadItems().</div><div class="codeblock"><div class="codecap"><span>public/items.html (add inside script)</span><button type="button">copy</button></div><pre>document.getElementById('item-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const token = document.getElementById('token').value;
+  const body = {
+    title: document.getElementById('title').value,
+    description: document.getElementById('description').value,
+    price: parseFloat(document.getElementById('price').value),
+    category_id: document.getElementById('category_id').value || null
+  };
+  const formStatus = document.getElementById('form-status');
+  try {
+    const res = await fetch('/api/v1/items', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify(body)
+    });
+    const json = await res.json();
+    formStatus.textContent = json.message || json.status;
+    if (json.status === 'success') { document.getElementById('item-form').reset(); loadItems(); }
+  } catch (err) {
+    formStatus.textContent = 'Request failed: ' + err.message;
+  }
+});</pre></div><p>This markup and script are identical to the Node edition's &mdash; the browser does not know or care whether the API behind <code class="inline">/api/v1/items</code> is written in PHP or Node, because it only ever speaks JSON over HTTP to it.</p><div class="callout run"><b>RUN IT NOW</b>Reload items.html, paste a fresh token, submit the form. Expect the new row to appear without a manual page refresh.</div></section><section id="p2-step10"><h2>Step 10. Read One Item And The Aggregation Summary (ItemController VERSION 3)</h2><div class="callout why"><b>WHY THIS STEP NOW</b>Same as the Node edition: with real data present, these two reads become meaningful, and GROUP BY/HAVING get demonstrated.</div><div class="callout addf"><b>ADD TO EXISTING FILE</b>src/Controllers/ItemController.php. Append both methods.</div><div class="codeblock"><div class="codecap"><span>append to the controller</span><button type="button">copy</button></div><pre>    // GET /api/v1/items/:id (Read One)
+    public function getOne(Request $request): void
+    {
+        $db = Database::getConnection();
+        $stmt = $db-&gt;prepare("
+            SELECT
+                i.id, i.title, i.description, i.price, i.created_at,
+                c.name AS category_name,
+                u.username AS author_name
+            FROM items i
+            INNER JOIN users u ON i.user_id = u.id
+            LEFT JOIN categories c ON i.category_id = c.id
+            WHERE i.id = ?
+        ");
+        $stmt-&gt;execute([$request-&gt;params['id']]);
+        $item = $stmt-&gt;fetch();
+
+        if ($item === false) {
+            Response::error('Item not found.', 404);
+        }
+
+        Response::success(['data' =&gt; $item]);
+    }
+
+    // GET /api/v1/items/summary (Analytics with GROUP BY, HAVING, ORDER BY)
+    public function summary(Request $request): void
+    {
+        $db = Database::getConnection();
+        $stmt = $db-&gt;query("
+            SELECT
+                c.id AS category_id,
+                c.name AS category_name,
+                COUNT(i.id) AS total_items,
+                AVG(i.price) AS average_price,
+                MAX(i.price) AS max_price
+            FROM categories c
+            LEFT JOIN items i ON c.id = i.category_id
+            GROUP BY c.id, c.name
+            HAVING total_items &gt; 0
+            ORDER BY average_price DESC
+        ");
+        $summary = $stmt-&gt;fetchAll();
+
+        Response::success(['count' =&gt; count($summary), 'data' =&gt; $summary]);
+    }</pre></div><div class="callout addf"><b>ADD TO EXISTING FILE</b>public/index.php. Mind the order.</div><div class="codeblock"><div class="codecap"><span>public/index.php (additions)</span><button type="button">copy</button></div><pre>$router-&gt;get('/api/v1/items/summary', [$items, 'summary']);  // &lt;== ADD THIS FIRST
+$router-&gt;get('/api/v1/items/:id', [$items, 'getOne']);       // &lt;== THEN THIS</pre></div><div class="callout warn"><b>ORDER MATTERS</b>The Router (Step 5) matches top to bottom, same as Express. Declare /:id before /summary and a request for /summary is read as an id of "summary" &mdash; identical trap to the Node edition, identical fix.</div><div class="callout run"><b>RUN IT NOW</b>Three checks: /1 returns the record, /999 returns 404, /summary returns one grouped row.</div><div class="codeblock"><div class="codecap"><span>response</span><button type="button">copy</button></div><pre>{
+  "status": "success",
+  "count": 1,
+  "data": [
+    {
+      "category_id": 1,
+      "category_name": "Electronics",
+      "total_items": 1,
+      "average_price": 850,
+      "max_price": 850
+    }
+  ]
+}</pre></div><div class="callout warn"><b>ONE REAL DIFFERENCE FROM THE NODE VERSION</b>mysql2 returned average_price as the string "850.000000" (MySQL's DECIMAL/AVG textual form). PDO with pdo_mysql returns it as a PHP number. If an assessor asks why the same SQL prints differently, the honest answer is: it's a driver formatting choice, not a difference in the SQL or the data &mdash; DECIMAL and AVG() behave identically in both, only how each driver hands the value to your language differs.</div></section><section id="p2-step11"><h2>Step 11. Update And Delete (ItemController FINAL)</h2><div class="callout why"><b>WHY THIS STEP NOW</b>Two writes remain; after this step C, R, U and D are all evidenced, same milestone as the Node edition.</div><div class="callout addf"><b>ADD TO EXISTING FILE</b>src/Controllers/ItemController.php. Append the last two methods.</div><div class="codeblock"><div class="codecap"><span>append to the controller</span><button type="button">copy</button></div><pre>    // PUT /api/v1/items/:id (Update)
+    public function update(Request $request): void
+    {
+        $db = Database::getConnection();
+        $stmt = $db-&gt;prepare('
+            UPDATE items SET
+                title = COALESCE(?, title),
+                description = COALESCE(?, description),
+                price = COALESCE(?, price),
+                category_id = COALESCE(?, category_id)
+            WHERE id = ?
+        ');
+        $stmt-&gt;execute([
+            $request-&gt;body['title'] ?? null,
+            $request-&gt;body['description'] ?? null,
+            $request-&gt;body['price'] ?? null,
+            $request-&gt;body['category_id'] ?? null,
+            $request-&gt;params['id'],
+        ]);
+
+        if ($stmt-&gt;rowCount() === 0) {
+            Response::error('Item not found or no changes made.', 404);
+        }
+
+        Response::success(['message' =&gt; 'Item updated successfully.']);
+    }
+
+    // DELETE /api/v1/items/:id
+    public function delete(Request $request): void
+    {
+        $db = Database::getConnection();
+        $stmt = $db-&gt;prepare('DELETE FROM items WHERE id = ?');
+        $stmt-&gt;execute([$request-&gt;params['id']]);
+
+        if ($stmt-&gt;rowCount() === 0) {
+            Response::error('Item not found.', 404);
+        }
+
+        Response::success(['message' =&gt; 'Item deleted successfully.']);
+    }</pre></div><div class="callout addf"><b>ADD TO EXISTING FILE</b>public/index.php.</div><div class="codeblock"><div class="codecap"><span>public/index.php (additions)</span><button type="button">copy</button></div><pre>$router-&gt;put('/api/v1/items/:id', [$items, 'update'], [$authMiddleware]);      // &lt;== ADD THIS
+$router-&gt;delete('/api/v1/items/:id', [$items, 'delete'], [$authMiddleware]);   // &lt;== ADD THIS</pre></div><ul><li>COALESCE(?, title) behaves identically in MySQL regardless of which language sent the query &mdash; passing PHP <code class="inline">null</code> through <code class="inline">PDOStatement::execute()</code> binds as SQL NULL, so an omitted field keeps its existing value, exactly like the Node edition. This was verified directly: updating only price left title, description and category_id untouched.</li><li><code class="inline">rowCount() === 0</code> is PDO's equivalent of mysql2's <code class="inline">affectedRows === 0</code> &mdash; nothing matched that id, so the answer is 404, not a silent 200.</li></ul><div class="callout run"><b>RUN IT NOW</b>PUT with { "price": 799.50 } returns 200 and leaves other fields alone. DELETE returns 200, a second DELETE returns 404.</div></section><section id="p2-step11b"><h2>Step 11b. View: Edit &amp; Delete (Optional)</h2><div class="callout why"><b>WHY THIS STEP NOW</b>Step 11 just added PUT and DELETE; the view can only exercise them now. Same JavaScript as the Node edition's Step 11b &mdash; the frontend does not change at all when the backend language changes underneath it, which is itself worth being able to say out loud.</div><div class="callout addf"><b>ADD TO EXISTING FILE</b>public/items.html. Same three edits as the Node edition: add <code class="inline">let editingId = null;</code> near the top of the script, two new cells per row inside loadItems() (Edit and Delete buttons), two empty header cells, and replace the submit handler to branch between POST and PUT based on editingId.</div><div class="codeblock"><div class="codecap"><span>public/items.html (full, final script block)</span><button type="button">copy</button></div><pre>let editingId = null;
+
+async function loadItems() {
+  const status = document.getElementById('status');
+  try {
+    const res = await fetch('/api/v1/items');
+    const json = await res.json();
+    if (json.status !== 'success') { status.textContent = 'Error: ' + json.message; return; }
+    const tbody = document.querySelector('#items-table tbody');
+    tbody.innerHTML = '';
+    json.data.forEach(function(item) {
+      const row = document.createElement('tr');
+      [item.id, item.title, item.description, item.price, item.category_name, item.author_name, item.created_at]
+        .forEach(function(value) {
+          const cell = document.createElement('td');
+          cell.textContent = value === null ? '' : value;
+          row.appendChild(cell);
+        });
+
+      const editBtn = document.createElement('button');
+      editBtn.textContent = 'Edit';
+      editBtn.addEventListener('click', function() {
+        editingId = item.id;
+        document.getElementById('title').value = item.title;
+        document.getElementById('description').value = item.description || '';
+        document.getElementById('price').value = item.price;
+        document.getElementById('category_id').value = item.category_id || '';
+        document.querySelector('#item-form button[type="submit"]').textContent = 'Update Item';
+      });
+      const editCell = document.createElement('td');
+      editCell.appendChild(editBtn);
+      row.appendChild(editCell);
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.addEventListener('click', async function() {
+        const token = document.getElementById('token').value;
+        await fetch('/api/v1/items/' + item.id, {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        loadItems();
+      });
+      const deleteCell = document.createElement('td');
+      deleteCell.appendChild(deleteBtn);
+      row.appendChild(deleteCell);
+
+      tbody.appendChild(row);
+    });
+    status.textContent = json.count + ' item(s) found.';
+    document.getElementById('items-table').style.display = '';
+  } catch (err) {
+    status.textContent = 'Could not reach the API: ' + err.message;
+  }
+}
+
+document.getElementById('item-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const token = document.getElementById('token').value;
+  const body = {
+    title: document.getElementById('title').value,
+    description: document.getElementById('description').value,
+    price: parseFloat(document.getElementById('price').value),
+    category_id: document.getElementById('category_id').value || null
+  };
+  const formStatus = document.getElementById('form-status');
+  const url = editingId ? '/api/v1/items/' + editingId : '/api/v1/items';
+  const method = editingId ? 'PUT' : 'POST';
+  try {
+    const res = await fetch(url, {
+      method: method,
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify(body)
+    });
+    const json = await res.json();
+    formStatus.textContent = json.message || json.status;
+    if (json.status === 'success') {
+      editingId = null;
+      document.querySelector('#item-form button[type="submit"]').textContent = 'Create Item';
+      document.getElementById('item-form').reset();
+      loadItems();
+    }
+  } catch (err) {
+    formStatus.textContent = 'Request failed: ' + err.message;
+  }
+});
+
+loadItems();</pre></div><p>Also update the table header to add two empty columns:</p><div class="codeblock"><div class="codecap"><span>public/items.html (table header)</span><button type="button">copy</button></div><pre>&lt;thead&gt;&lt;tr&gt;&lt;th&gt;ID&lt;/th&gt;&lt;th&gt;Title&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Price&lt;/th&gt;&lt;th&gt;Category&lt;/th&gt;&lt;th&gt;Author&lt;/th&gt;&lt;th&gt;Created&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</pre></div><div class="callout run"><b>RUN IT NOW</b>Click Edit on a row, change a field, submit, confirm the row updates in place. Click Delete, confirm it disappears.</div></section><section id="p2-step12"><h2>Step 12. Harden The Front Controller (index.php FINAL)</h2><div class="callout why"><b>WHY THIS STEP NOW</b>Same milestone as the Node edition's server.js FINAL: security headers, cross-origin access, a proper 404, and one place that catches anything unexpected.</div><div class="callout addf"><b>ADD TO EXISTING FILE</b>public/index.php &mdash; FINAL. This is the complete file.</div><div class="codeblock"><div class="codecap"><span>public/index.php (final)</span><button type="button">copy</button></div><pre>&lt;?php
+
+// public/index.php - FINAL (front controller)
+require __DIR__ . '/../autoload.php';
+
+use App\Controllers\AuthController;
+use App\Controllers\ItemController;
+use App\Core\Env;
+use App\Core\Response;
+use App\Core\Router;
+use App\Middlewares\AuthMiddleware;
+
+Env::load(__DIR__ . '/../.env');
+
+// Security headers, hand-rolled (this is what helmet() does in the Node version)
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: DENY');
+header("Content-Security-Policy: default-src 'self'");
+
+// CORS, hand-rolled (this is what cors() does in the Node version)
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, x-api-key');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
+
+$requestUri = $_SERVER['REQUEST_URI'];
+$requestPath = parse_url($requestUri, PHP_URL_PATH);
+
+// Health check, before routing and before the static file check below
+if ($requestPath === '/') {
+    Response::json([
+        'status' =&gt; 'online',
+        'message' =&gt; 'TESDA NC III Backend API Server Running (PHP)',
+        'version' =&gt; 'v1.0.0',
+    ]);
+}
+
+// Serve the public/ folder's own static files (e.g. /items.html) directly,
+// the same role express.static() plays in the Node version.
+$staticFile = __DIR__ . $requestPath;
+if ($requestPath !== '/' &amp;&amp; is_file($staticFile)) {
+    return false; // let the PHP built-in server / Apache serve it as-is
+}
+
+$router = new Router();
+$authMiddleware = new AuthMiddleware();
+$auth = new AuthController();
+$items = new ItemController();
+
+$router-&gt;post('/api/v1/auth/register', [$auth, 'register']);
+$router-&gt;post('/api/v1/auth/login', [$auth, 'login']);
+
+$router-&gt;get('/api/v1/items', [$items, 'getAll']);
+$router-&gt;get('/api/v1/items/summary', [$items, 'summary']); // must stay above /:id
+$router-&gt;get('/api/v1/items/:id', [$items, 'getOne']);
+$router-&gt;post('/api/v1/items', [$items, 'create'], [$authMiddleware]);
+$router-&gt;put('/api/v1/items/:id', [$items, 'update'], [$authMiddleware]);
+$router-&gt;delete('/api/v1/items/:id', [$items, 'delete'], [$authMiddleware]);
+
+try {
+    $router-&gt;dispatch($_SERVER['REQUEST_METHOD'], $requestUri);
+} catch (Throwable $e) {
+    error_log('Server Error: ' . $e-&gt;getMessage());
+    Response::error('Internal Server Error', 500);
+}</pre></div><p>What the new pieces do, and how each maps back to the Node edition:</p><ul><li><code class="inline">header('X-Content-Type-Options: nosniff')</code>, <code class="inline">X-Frame-Options</code> and a Content-Security-Policy header are hand-written here because vanilla PHP has no helmet() &mdash; these are the same headers helmet sets by default, just spelled out one <code class="inline">header()</code> call at a time.</li><li>The three <code class="inline">Access-Control-Allow-*</code> headers are what cors() does automatically in Node; PHP needs them written explicitly, plus a short-circuit for the OPTIONS preflight request browsers send before certain cross-origin calls.</li><li>The 404 lives inside <code class="inline">Router::dispatch()</code> itself (Step 5) as the fallback when nothing matches &mdash; the PHP equivalent of Express's catch-all middleware registered after every route.</li><li>The <code class="inline">try/catch (Throwable $e)</code> wrapped around <code class="inline">$router->dispatch()</code> is the one global error handler: anything a controller does not catch itself lands here as a generic 500, the same safety net Express's four-argument error handler provides.</li></ul><div class="callout run"><b>RUN IT NOW</b>Full smoke test: health check, register, login, list, create, summary, read one, update, delete, then an unknown URL that must return JSON 404.</div><h3>Endpoint Summary</h3><table><thead><tr><th>Method and URL</th><th>Auth</th><th>Built in</th><th>Purpose</th></tr></thead><tbody><tr><td><code class="inline">GET /</code></td><td>Public</td><td>Step 3</td><td>Health check</td></tr><tr><td><code class="inline">POST /api/v1/auth/register</code></td><td>Public</td><td>Step 5</td><td>Create a user with a hashed password</td></tr><tr><td><code class="inline">POST /api/v1/auth/login</code></td><td>Public</td><td>Step 6</td><td>Verify credentials and issue a JWT</td></tr><tr><td><code class="inline">GET /api/v1/items</code></td><td>Public</td><td>Step 8</td><td>Read all, INNER JOIN + LEFT JOIN + ORDER BY</td></tr><tr><td><code class="inline">POST /api/v1/items</code></td><td>JWT</td><td>Step 9</td><td>Create inside a PDO transaction</td></tr><tr><td><code class="inline">GET /api/v1/items/summary</code></td><td>Public</td><td>Step 10</td><td>GROUP BY + HAVING aggregation</td></tr><tr><td><code class="inline">GET /api/v1/items/:id</code></td><td>Public</td><td>Step 10</td><td>Read one</td></tr><tr><td><code class="inline">PUT /api/v1/items/:id</code></td><td>JWT</td><td>Step 11</td><td>Update with COALESCE</td></tr><tr><td><code class="inline">DELETE /api/v1/items/:id</code></td><td>JWT</td><td>Step 11</td><td>Delete</td></tr></tbody></table></section><section id="p2-step13"><h2>Step 13. Search &amp; Filtering With Query Parameters (Optional)</h2><div class="callout why"><b>WHY THIS STEP NOW</b>Same optional enhancement as the Node edition: PHP's $_GET is the direct equivalent of req.query, and this is the one part of the HTTP request this playbook has not used yet.</div><div class="callout addf"><b>ADD TO EXISTING FILE</b>src/Controllers/ItemController.php. Replace getAll with this version.</div><div class="codeblock"><div class="codecap"><span>src/Controllers/ItemController.php (getAll, with filters)</span><button type="button">copy</button></div><pre>    // GET /api/v1/items?search=&amp;category_id=&amp;min_price=&amp;max_price=
+    public function getAll(Request $request): void
+    {
+        $db = Database::getConnection();
+
+        $sql = "
+            SELECT
+                i.id, i.title, i.description, i.price, i.created_at,
+                c.name AS category_name,
+                u.username AS author_name,
+                u.email AS author_email
+            FROM items i
+            INNER JOIN users u ON i.user_id = u.id
+            LEFT JOIN categories c ON i.category_id = c.id
+            WHERE 1=1
+        ";
+        $params = [];
+
+        if (!empty($request-&gt;query['search'])) {
+            $sql .= ' AND i.title LIKE ?';
+            $params[] = '%' . $request-&gt;query['search'] . '%';
+        }
+        if (!empty($request-&gt;query['category_id'])) {
+            $sql .= ' AND i.category_id = ?';
+            $params[] = $request-&gt;query['category_id'];
+        }
+        if (!empty($request-&gt;query['min_price'])) {
+            $sql .= ' AND i.price &gt;= ?';
+            $params[] = $request-&gt;query['min_price'];
+        }
+        if (!empty($request-&gt;query['max_price'])) {
+            $sql .= ' AND i.price &lt;= ?';
+            $params[] = $request-&gt;query['max_price'];
+        }
+
+        $sql .= ' ORDER BY i.created_at DESC';
+
+        $stmt = $db-&gt;prepare($sql);
+        $stmt-&gt;execute($params);
+        $items = $stmt-&gt;fetchAll();
+
+        Response::success(['count' =&gt; count($items), 'data' =&gt; $items]);
+    }</pre></div><p><code class="inline">$request-&gt;query</code> is populated straight from <code class="inline">$_GET</code> in Request.php (Step 5) &mdash; every value still travels through a <code class="inline">?</code> placeholder, so this stays exactly as injection-safe as every other query in this file.</p><div class="callout run"><b>RUN IT NOW</b>Verified directly: GET /api/v1/items?search=mouse returned the same single row as the unfiltered call once one matching item existed.</div></section><section id="p2-reference"><h2>Memory Tips &amp; Common Errors</h2><h3>PDO Transactions (vs. mysql2)</h3><ul><li>No separate connection to acquire: <code class="inline">$db = Database::getConnection();</code> is already the one connection for this request.</li><li>Start it: <code class="inline">$db->beginTransaction();</code></li><li>On success: <code class="inline">$db->commit();</code></li><li>On error: <code class="inline">$db->rollBack();</code> (capital B &mdash; a common typo).</li><li>No <code class="inline">release()</code> call exists or is needed &mdash; the connection closes when the PHP request ends.</li></ul><h3>SQL Joins &amp; Aggregation</h3><p>Unchanged from the Node edition: INNER JOIN needs a match in both tables; LEFT JOIN keeps every left-side row and fills missing right-side columns with null; HAVING filters after GROUP BY, WHERE cannot because it runs before grouping.</p><h3>Common Errors And Their Cause</h3><table><thead><tr><th>Symptom</th><th>Most likely cause</th></tr></thead><tbody><tr><td>Class "App\Controllers\X" not found</td><td>autoload.php was not required, or the file path doesn't match the namespace exactly (case-sensitive on Linux/macOS)</td></tr><tr><td>$request-&gt;body is always empty on POST</td><td>Body was sent as form-data instead of raw JSON, or Content-Type header was missing</td></tr><tr><td>401 Access Denied on a protected route</td><td>Authorization header missing, or the word Bearer omitted</td></tr><tr><td>403 Invalid or Expired Token</td><td>Token older than 2 hours, or JWT_SECRET in .env changed after the token was issued</td></tr><tr><td>Item not found when calling /summary</td><td>/:id was registered before /summary in index.php</td></tr><tr><td>SQLSTATE[HY000] [2002] Connection refused</td><td>MySQL is not running, or DB_HOST/.env is wrong</td></tr><tr><td>SQLSTATE[HY000] [2002] No such file or directory</td><td>macOS/Linux only: DB_HOST=localhost makes PDO look for a Unix socket that XAMPP does not expose. Set DB_HOST=127.0.0.1 in .env to force TCP.</td></tr><tr><td>Connects as root even though .env says tesda_app</td><td>Env::load() was never called before Database::getConnection(), so Env::get() fell back to its defaults</td></tr><tr><td>Warning: Undefined array key "id"</td><td>$request-&gt;user is null — a route is using $request-&gt;user without the AuthMiddleware in its route registration</td></tr></tbody></table><h3>MVC — How To Justify It Out Loud (PHP Edition)</h3><p><b>Direct answer:</b> "Yes, I structured it using MVC, in plain object-oriented PHP with no framework."</p><p>"Model is the data layer: database/schema.sql defines the tables, src/Config/Database.php holds the one PDO connection, and the queries live inside each Controller using prepared statements. View doesn't exist as a template engine, since this is a JSON API, but I also built an actual HTML view in public/items.html that calls the same endpoints, so there is a real View to point at as well as the JSON response. Controller is src/Controllers, holding the business logic. I also wrote a Router and Request class in src/Core, because vanilla PHP provides none of that itself — Express gives you a router and a req/res object for free, so in PHP I had to build the equivalent by hand, in about 150 lines total."</p><table><thead><tr><th>MVC part</th><th>Your folder</th></tr></thead><tbody><tr><td>Model</td><td>database/schema.sql + src/Config/Database.php + queries inside Controllers</td></tr><tr><td>View</td><td>public/items.html, plus the JSON response itself</td></tr><tr><td>Controller</td><td>src/Controllers</td></tr><tr><td>(extra) Router/Request</td><td>src/Core — hand-built, since PHP has no Express to provide this</td></tr><tr><td>(extra) Middleware</td><td>src/Middlewares</td></tr></tbody></table><p><b>If asked "is this really OOP?"</b> Yes, more literally than the Node edition: every Controller, Middleware, and Core class is a PHP class with methods, instantiated with <code class="inline">new</code> and passed around as objects, whereas the Node edition's controllers were plain exported functions. PDO itself is also an object.</p></section><section id="p2-exam"><h2 id="p2-written-exam">Written Exam Reviewer &mdash; One Item Per SAG Item (86), PHP + MySQL Edition</h2><p>Multiple choice, 1 point each. This paper is built directly from the Self-Assessment Guide in the <code class="inline">Mock Assessment</code> folder (TESDA-OP-QSO-02-F07, Web Development (Back-End) NC III): <b>every one of the 86 &ldquo;Can I?&rdquo; items has exactly one question, tagged [SAG n]</b>, grouped under the SAG&rsquo;s own elements, with the critical aspects of competency marked *. Coverage is therefore checkable line by line against the guide you sign on assessment day. Technology-neutral items are asked the way the mock and its addendum ask them; technology-specific ones are asked the way they would be asked of a PHP + MySQL candidate. Answer each one before opening its answer, not after.</p><table><thead><tr><th>Score</th><th>Interpretation</th></tr></thead><tbody><tr><td>78&ndash;86</td><td>Ready. Written knowledge is not your risk area.</td></tr><tr><td>69&ndash;77</td><td>Passing (80%), but review every item you missed and write the reason in your own words.</td></tr><tr><td>52&ndash;68</td><td>Borderline. Re-study the SAG elements you missed &mdash; the [SAG n] tag tells you which &mdash; then retake in two days.</td></tr><tr><td>Below 52</td><td>Do not schedule the assessment yet. Re-read the CBC sections for the elements you missed before retaking.</td></tr></tbody></table><h4>Unit 1 — Utilize Software Methodologies For Back-End Systems (SAG 1–23)</h4><p class="sag-el"><b>Identify project requirements and software methodologies (SAG 1–5)</b></p><p><b>1.</b> <span class="sag">[SAG 1]</span> On assessment day you receive the project brief and the workstation. According to the mock assessment, when is the right moment to discuss and confirm the requirements with the assessor?<br/>a. After the first endpoint works, so the questions are concrete &nbsp; b. Before the timer starts — once the assessor begins observing, technical questions are no longer answered &nbsp; c. During the oral questioning at the end &nbsp; d. Never; the brief is final and questions count against you</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Before the timer starts — once the assessor begins observing, technical questions are no longer answered. SAG 1 is 'discuss and determine project requirements with other relevant personnel'. The mock's Part 2 says: read the brief twice, sketch the tables and endpoint list, ask clarifying questions now.</p></details><p><b>2.</b> <span class="sag">[SAG 2]</span> Which list correctly names the resources this PHP + MySQL project needs, identified from its requirements?<br/>a. Node.js, npm, nodemon, Composer &nbsp; b. PHP 8.x with pdo_mysql, MySQL/MariaDB (XAMPP), VS Code, Git, Postman or curl, and the candidate's time &nbsp; c. Laravel, Eloquent, Redis, Docker &nbsp; d. Only a browser — the server is provided by TESDA</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — PHP 8.x with pdo_mysql, MySQL/MariaDB (XAMPP), VS Code, Git, Postman or curl, and the candidate's time. Resources are the people, tools, software and time the requirements imply. Day 1 Phase 1 verifies each of these before anything is built.</p></details><p><b>3.</b> <span class="sag">[SAG 3]</span> Which of the following is NOT one of the software development methodologies named in this qualification's curriculum?<br/>a. Rapid Application Development &nbsp; b. Kanban Methodology &nbsp; c. V-Model &nbsp; d. Adaptive Software Development</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>c</b> — V-Model. The CBC lists Waterfall, RAD, Agile, Iterative, Scrum, Adaptive Software Development and Kanban. V-Model is not among them.</p></details><p><b>4.</b> <span class="sag">[SAG 4]</span> A client cannot fully define the requirements at the start and expects weekly changes. Which software development methodology is most appropriate?<br/>a. Waterfall &nbsp; b. Agile / Scrum &nbsp; c. Rapid Application Development &nbsp; d. Kanban Methodology</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Agile / Scrum. Agile/Scrum absorbs changing requirements through short iterations; Waterfall fixes requirements up front.</p></details><p><b>5.</b> <span class="sag">[SAG 5]</span> You are one person with a four-hour build. Which is the sensible way to tailor Scrum to this project?<br/>a. Keep every ceremony — daily stand-up, sprint review, retrospective — even though you are alone &nbsp; b. Keep the short, time-boxed iterations that each end in a tested increment (one endpoint at a time), and drop the team ceremonies that have no one to attend &nbsp; c. Abandon methodology entirely; four hours is too short for one &nbsp; d. Switch to Waterfall and write all the code before testing any of it</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Keep the short, time-boxed iterations that each end in a tested increment (one endpoint at a time), and drop the team ceremonies that have no one to attend. Tailoring means keeping what serves the project. The Day 2 build order — each step ends in a RUN IT NOW test — is exactly a tailored iterative approach.</p></details><p class="sag-el"><b>Apply software methodologies (SAG 6–12)</b></p><p><b>6.</b> <span class="sag">[SAG 6]</span> Which document records the project's scope, the tasks, the schedule and the resources, and is created from the chosen methodology?<br/>a. The troubleshooting guide &nbsp; b. The project plan &nbsp; c. The API documentation &nbsp; d. The .env file</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — The project plan</p></details><p><b>7.</b> <span class="sag">[SAG 7]</span> A project component breakdown organizes work into which of the following units, borrowed from Agile/Scrum vocabulary?<br/>a. Feature, Sprint, Product &nbsp; b. Table, Column, Row &nbsp; c. Router, Controller, Model &nbsp; d. Header, Payload, Signature</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>a</b> — Feature, Sprint, Product</p></details><p><b>8.</b> <span class="sag">[SAG 8]</span> Which is the most reliable way to estimate the effort and duration of this API build?<br/>a. Guess a single number for the whole project &nbsp; b. Break it into components (schema, auth, each CRUD endpoint, docs), estimate each one, and add them up — then add a margin for testing &nbsp; c. Copy the estimate from a different project &nbsp; d. Effort cannot be estimated for software</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Break it into components (schema, auth, each CRUD endpoint, docs), estimate each one, and add them up — then add a margin for testing. Bottom-up estimation from the component breakdown. The playbook's 13 steps with the minute ranges in Day 1 are this estimate written down.</p></details><p><b>9.</b> <span class="sag">[SAG 9]</span> Which visual tool maps task duration and dependencies, and identifies the critical path in a project schedule?<br/>a. Use-case diagram &nbsp; b. Gantt chart &nbsp; c. ER diagram &nbsp; d. Sequence diagram</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Gantt chart</p></details><p><b>10.</b> <span class="sag">[SAG 10]</span> Which tool is used to allocate tasks from the component breakdown and show who is doing what, using columns such as To Do / In Progress / Done?<br/>a. A Kanban board (e.g. Trello, Jira) &nbsp; b. phpMyAdmin &nbsp; c. A Gantt chart &nbsp; d. git log</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>a</b> — A Kanban board (e.g. Trello, Jira)</p></details><p><b>11.</b> <span class="sag">[SAG 11]</span> What is a 'schedule control' in project management terms?<br/>a. A cron job on the server &nbsp; b. A checkpoint or milestone at which planned progress is compared with actual progress, so slippage is caught early &nbsp; c. The order of routes in index.php &nbsp; d. A password on the schedule document</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — A checkpoint or milestone at which planned progress is compared with actual progress, so slippage is caught early. The RUN IT NOW blocks after every Day 2 step are schedule controls: if Step 6 does not pass by its planned time, you know before Step 12.</p></details><p><b>12.</b> <span class="sag">[SAG 12]</span> Which of these is a way to monitor project flow against the schedule during the build?<br/>a. Ticking off each step's checkpoint against its planned time and moving cards across the Kanban board &nbsp; b. Refreshing the browser &nbsp; c. Running git init again &nbsp; d. Re-reading the SAG</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>a</b> — Ticking off each step's checkpoint against its planned time and moving cards across the Kanban board</p></details><p class="sag-el"><b>Utilizes code versioning tools * (SAG 13–15)</b></p><p><b>13.</b> <span class="sag">[SAG 13]</span> Which of these code versioning tools is centralized, unlike Git, Mercurial, or Bazaar, which are distributed?<br/>a. Git &nbsp; b. Mercurial &nbsp; c. Subversion &nbsp; d. Bazaar</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>c</b> — Subversion</p></details><p><b>14.</b> <span class="sag">[SAG 14]</span> After installing Git, which commands set the local commit identity for this project (Day 1 Phase 2)?<br/>a. git init only &nbsp; b. git config user.name "..." and git config user.email "..." &nbsp; c. git push origin main &nbsp; d. git clone</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — git config user.name "..." and git config user.email "...". Without an identity, git commit refuses to run — the assessor sees no progressive commits.</p></details><p><b>15.</b> <span class="sag">[SAG 15]</span> Which sequence demonstrates using a versioning tool in the development process, as marked in the mock's rating sheet?<br/>a. One commit at the very end with the message 'done' &nbsp; b. At least four commits with meaningful messages spread across the session — e.g. after the schema, after auth, after CRUD, after the docs &nbsp; c. git add . with no commit &nbsp; d. Zipping the folder</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — At least four commits with meaningful messages spread across the session — e.g. after the schema, after auth, after CRUD, after the docs. Meaningful, progressive commits are the evidence. The mock's rating sheet marks this as a critical aspect.</p></details><p class="sag-el"><b>Creates documentation (SAG 16–23)</b></p><p><b>16.</b> <span class="sag">[SAG 16]</span> Who is the target audience of docs/SETUP_INSTRUCTIONS.md, and who is the audience of docs/API_DOCS.md?<br/>a. Both are for the assessor only &nbsp; b. SETUP_INSTRUCTIONS: the developer or operator installing and running the system; API_DOCS: the front-end developer or client consuming the endpoints &nbsp; c. SETUP_INSTRUCTIONS: end users of the website; API_DOCS: the database administrator &nbsp; d. Neither has an audience; they are formalities</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — SETUP_INSTRUCTIONS: the developer or operator installing and running the system; API_DOCS: the front-end developer or client consuming the endpoints. SAG 16: identify target audience. The audience decides what each document must contain.</p></details><p><b>17.</b> <span class="sag">[SAG 17]</span> Which set of documents defines the scope of documentation this project ships?<br/>a. Only README.md &nbsp; b. SYSTEM_ARCHITECTURE.md, SETUP_INSTRUCTIONS.md, API_DOCS.md and TROUBLESHOOTING.md in docs/, plus the schema and .env.example &nbsp; c. A single PDF &nbsp; d. Comments in the code only</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — SYSTEM_ARCHITECTURE.md, SETUP_INSTRUCTIONS.md, API_DOCS.md and TROUBLESHOOTING.md in docs/, plus the schema and .env.example</p></details><p><b>18.</b> <span class="sag">[SAG 18]</span> What must docs/SYSTEM_ARCHITECTURE.md describe for this project?<br/>a. Every SQL query in full &nbsp; b. The 3-tier MVC pattern and the request flow: Client → public/index.php → Router → AuthMiddleware → Controller → PDO/MySQL &nbsp; c. The candidate's biography &nbsp; d. The list of git commits</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — The 3-tier MVC pattern and the request flow: Client → public/index.php → Router → AuthMiddleware → Controller → PDO/MySQL</p></details><p><b>19.</b> <span class="sag">[SAG 19]</span> Which document tells someone how to install and run the system: copy .env.example to .env, import database/schema.sql, run php -S localhost:3000 -t public?<br/>a. API_DOCS.md &nbsp; b. TROUBLESHOOTING.md &nbsp; c. SETUP_INSTRUCTIONS.md &nbsp; d. schema.sql</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>c</b> — SETUP_INSTRUCTIONS.md</p></details><p><b>20.</b> <span class="sag">[SAG 20]</span> Where are the system's features and functionalities (what it does, for whom) documented, as distinct from how to install it or how to call each endpoint?<br/>a. In README.md / the user manual &nbsp; b. In .gitignore &nbsp; c. In autoload.php &nbsp; d. In the Postman collection only</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>a</b> — In README.md / the user manual</p></details><p><b>21.</b> <span class="sag">[SAG 21]</span> Which document describes each API endpoint, its method, its parameters, its auth requirement and its sample response?<br/>a. System architecture document &nbsp; b. Troubleshooting guide &nbsp; c. API documentation &nbsp; d. Setup instructions</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>c</b> — API documentation</p></details><p><b>22.</b> <span class="sag">[SAG 22]</span> What is the industry-standard shape of a troubleshooting guide entry?<br/>a. A paragraph of apology &nbsp; b. A row of Error / Symptom → Cause → Resolution, e.g. SQLSTATE[HY000] [2002] → MySQL not running → start MySQL in XAMPP &nbsp; c. The full stack trace only &nbsp; d. A link to Stack Overflow</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — A row of Error / Symptom → Cause → Resolution, e.g. SQLSTATE[HY000] [2002] → MySQL not running → start MySQL in XAMPP</p></details><p><b>23.</b> <span class="sag">[SAG 23]</span> Which diagram type shows the actors (Client, Admin) and what each can do with the system (register, log in, manage items)?<br/>a. ER diagram &nbsp; b. Use-case diagram &nbsp; c. Gantt chart &nbsp; d. Flowchart of one function</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Use-case diagram. SAG 23: use-case diagrams, flowcharts, screenshots or architecture diagrams. The request-flow line in SYSTEM_ARCHITECTURE.md is an architecture diagram in text form.</p></details><h4>Unit 2 — Utilize Server Software Applications (SAG 24–40)</h4><p class="sag-el"><b>Performs research (SAG 24–26)</b></p><p><b>24.</b> <span class="sag">[SAG 24]</span> Day 1 Phase 1 says to verify PHP and MySQL 'while you still have the assessor's attention'. Which SAG activity is that?<br/>a. Conducting testing &nbsp; b. Discussing and determining project requirements with relevant personnel — confirming what the machine provides before you are on your own &nbsp; c. Submitting the API &nbsp; d. Registering a domain</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Discussing and determining project requirements with relevant personnel — confirming what the machine provides before you are on your own</p></details><p><b>25.</b> <span class="sag">[SAG 25]</span> XAMPP was identified as a resource for this project. Which set of components does it provide?<br/>a. Node.js, npm and nodemon &nbsp; b. Apache, MySQL/MariaDB, PHP and phpMyAdmin &nbsp; c. Laravel and Composer &nbsp; d. Only a text editor</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Apache, MySQL/MariaDB, PHP and phpMyAdmin</p></details><p><b>26.</b> <span class="sag">[SAG 26]</span> Building the API one endpoint at a time, testing each before starting the next, is closest to which named methodology?<br/>a. Waterfall &nbsp; b. Iterative / incremental development &nbsp; c. Big Bang &nbsp; d. Spiral</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Iterative / incremental development</p></details><p class="sag-el"><b>Configures server (SAG 27–30)</b></p><p><b>27.</b> <span class="sag">[SAG 27]</span> Which of the following is a cloud/web hosting provider, rather than server software?<br/>a. Nginx &nbsp; b. Apache Tomcat &nbsp; c. DigitalOcean &nbsp; d. Glassfish</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>c</b> — DigitalOcean</p></details><p><b>28.</b> <span class="sag">[SAG 28]</span> Selecting server specifications based on project requirements means choosing:<br/>a. The colour of the admin panel &nbsp; b. CPU, RAM, storage and bandwidth sized to the expected number of users and requests — a small API needs a small tier &nbsp; c. The name of the database &nbsp; d. The JWT secret length</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — CPU, RAM, storage and bandwidth sized to the expected number of users and requests — a small API needs a small tier</p></details><p><b>29.</b> <span class="sag">[SAG 29]</span> Which operating system is the most common choice for a PHP + MySQL server in production, and which is used for local development in this playbook?<br/>a. iOS in production; Android locally &nbsp; b. A Linux distribution such as Ubuntu Server in production; Windows 11 with XAMPP locally &nbsp; c. macOS Server for both &nbsp; d. There is no difference</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — A Linux distribution such as Ubuntu Server in production; Windows 11 with XAMPP locally</p></details><p><b>30.</b> <span class="sag">[SAG 30]</span> Configuring server user access correctly means:<br/>a. Everyone logs in as root with one shared password &nbsp; b. Creating a non-root user with sudo where needed, using SSH keys instead of passwords, and giving each account only the access it needs &nbsp; c. Disabling authentication so the assessor can check faster &nbsp; d. Storing the root password in README.md</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Creating a non-root user with sudo where needed, using SSH keys instead of passwords, and giving each account only the access it needs</p></details><p class="sag-el"><b>Installs software to server * (SAG 31–35)</b></p><p><b>31.</b> <span class="sag">[SAG 31]</span> For a PHP API, which type of web server service is appropriate?<br/>a. Apache Tomcat, because it runs everything &nbsp; b. Apache HTTP Server or Nginx (PHP via mod_php or php-fpm); for local development, PHP's built-in server with php -S &nbsp; c. Only IIS &nbsp; d. A mail server</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Apache HTTP Server or Nginx (PHP via mod_php or php-fpm); for local development, PHP's built-in server with php -S</p></details><p><b>32.</b> <span class="sag">[SAG 32]</span> For this PHP-based API, what is actually being installed when the curriculum asks you to install the "language interpreter" on the server?<br/>a. The Node.js runtime &nbsp; b. The PHP interpreter (php-cli for php -S, or php-fpm / mod_php behind Apache or Nginx) &nbsp; c. Python &nbsp; d. The MySQL engine</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — The PHP interpreter (php-cli for php -S, or php-fpm / mod_php behind Apache or Nginx)</p></details><p><b>33.</b> <span class="sag">[SAG 33]</span> Based on the functionality this API needs, which server software must be installed?<br/>a. A web server (Apache/Nginx or php -S), the PHP interpreter with pdo_mysql, and a MySQL/MariaDB database server &nbsp; b. Only MySQL &nbsp; c. Only a web server &nbsp; d. A Java runtime</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>a</b> — A web server (Apache/Nginx or php -S), the PHP interpreter with pdo_mysql, and a MySQL/MariaDB database server</p></details><p><b>34.</b> <span class="sag">[SAG 34]</span> php -m shows no pdo_mysql. What is the configuration step that fixes it?<br/>a. Reinstall Windows &nbsp; b. Open php.ini, remove the leading semicolon from ;extension=pdo_mysql, and restart the server &nbsp; c. Run npm install pdo &nbsp; d. Change DB_HOST in .env</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Open php.ini, remove the leading semicolon from ;extension=pdo_mysql, and restart the server</p></details><p><b>35.</b> <span class="sag">[SAG 35]</span> How is PHP integrated with the web server so that requests reach public/index.php?<br/>a. It is not; PHP files are downloaded by the browser &nbsp; b. Apache loads PHP via mod_php, or Nginx passes .php requests to php-fpm; php -S routes every request through index.php itself, and an .htaccess rewrite does the same on Apache &nbsp; c. By renaming .php files to .html &nbsp; d. Through Composer</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Apache loads PHP via mod_php, or Nginx passes .php requests to php-fpm; php -S routes every request through index.php itself, and an .htaccess rewrite does the same on Apache</p></details><p class="sag-el"><b>Develops server-side scripts * (SAG 36–40)</b></p><p><b>36.</b> <span class="sag">[SAG 36]</span> Which of these is NOT one of the server-side scripting languages named in the curriculum?<br/>a. PHP &nbsp; b. Ruby &nbsp; c. Server-Side JavaScript (Node.js) &nbsp; d. Swift</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>d</b> — Swift</p></details><p><b>37.</b> <span class="sag">[SAG 37]</span> The functional requirement says: 'creating an item must also record an activity log entry; if either fails, neither is saved'. Which design satisfies it?<br/>a. Two separate INSERTs with no error handling &nbsp; b. Both INSERTs inside one PDO transaction: beginTransaction(), INSERT items, INSERT activity_logs, commit(); rollBack() on any exception &nbsp; c. Insert the item, then hope the log succeeds &nbsp; d. Write the log to a text file</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Both INSERTs inside one PDO transaction: beginTransaction(), INSERT items, INSERT activity_logs, commit(); rollBack() on any exception. ItemController::create() is this design; a bad category_id proves it, leaving no item and no orphan log.</p></details><p><b>38.</b> <span class="sag">[SAG 38]</span> Which pair of practices implements code security in this project's server-side scripts?<br/>a. md5() for passwords and string-concatenated SQL &nbsp; b. password_hash() / password_verify() for passwords and PDO prepared statements with placeholders for every query &nbsp; c. Storing passwords in plain text but over HTTPS &nbsp; d. Trusting $_GET values directly in SQL</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — password_hash() / password_verify() for passwords and PDO prepared statements with placeholders for every query</p></details><p><b>39.</b> <span class="sag">[SAG 39]</span> Testing an API with a command-line HTTP client instead of Postman or Thunder Client, which tool would you reach for?<br/>a. cURL &nbsp; b. Wireshark &nbsp; c. FileZilla &nbsp; d. XAMPP</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>a</b> — cURL</p></details><p><b>40.</b> <span class="sag">[SAG 40]</span> Software documentation submitted with completed server-side scripts should include which of the following?<br/>a. Source code and user manual only &nbsp; b. Source code, user manual, and API documentation &nbsp; c. Only the .gitignore file &nbsp; d. Only the database schema</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Source code, user manual, and API documentation</p></details><h4>Unit 3 — Develop Website Backend Systems (SAG 41–86)</h4><p class="sag-el"><b>Develops a Project Plan (SAG 41–46)</b></p><p><b>41.</b> <span class="sag">[SAG 41]</span> The assessment centre supplies a finished HTML front end (Demonstration Version B). What is the first requirements activity?<br/>a. Rewrite the HTML &nbsp; b. Read the supplied HTML and JavaScript to find the exact endpoint paths, methods and field names it expects, because the front end now defines the contract &nbsp; c. Delete the js folder &nbsp; d. Ask for a different front end</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Read the supplied HTML and JavaScript to find the exact endpoint paths, methods and field names it expects, because the front end now defines the contract</p></details><p><b>42.</b> <span class="sag">[SAG 42]</span> Which of these is NOT a project resource to identify in the project plan?<br/>a. The people doing the work &nbsp; b. Hardware and software (workstation, PHP, MySQL, VS Code) &nbsp; c. Time available &nbsp; d. The JWT_SECRET value</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>d</b> — The JWT_SECRET value</p></details><p><b>43.</b> <span class="sag">[SAG 43]</span> Which methodology emphasizes building a working prototype quickly through rapid iterations, for a tight deadline with well-understood requirements?<br/>a. Waterfall &nbsp; b. Rapid Application Development &nbsp; c. Kanban Methodology &nbsp; d. Big Bang</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Rapid Application Development</p></details><p><b>44.</b> <span class="sag">[SAG 44]</span> Determining budget and schedule according to project scope and the chosen methodology happens during which activity?<br/>a. Conduct testing &nbsp; b. Develop a project plan &nbsp; c. Apply security measures &nbsp; d. Configure web/cloud server</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Develop a project plan</p></details><p><b>45.</b> <span class="sag">[SAG 45]</span> Which sections belong in a drafted project plan?<br/>a. Only the source code &nbsp; b. Objectives and scope, deliverables, component breakdown, schedule (Gantt/Kanban), resources and budget, risks &nbsp; c. The SQL schema only &nbsp; d. The list of HTTP status codes</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Objectives and scope, deliverables, component breakdown, schedule (Gantt/Kanban), resources and budget, risks</p></details><p><b>46.</b> <span class="sag">[SAG 46]</span> A completed project plan document must be submitted for which purpose, per the assessment criteria?<br/>a. Deletion after the demo &nbsp; b. Presentation and submission to relevant personnel &nbsp; c. Encryption before storage &nbsp; d. Conversion to PDF only, with no review</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Presentation and submission to relevant personnel</p></details><p class="sag-el"><b>Configures Web/Cloud Server * (SAG 47–58)</b></p><p><b>47.</b> <span class="sag">[SAG 47]</span> Which of these is a web/cloud server provider you could deploy this API to?<br/>a. XAMPP &nbsp; b. AWS, DigitalOcean or Microsoft Azure &nbsp; c. phpMyAdmin &nbsp; d. Postman</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — AWS, DigitalOcean or Microsoft Azure</p></details><p><b>48.</b> <span class="sag">[SAG 48]</span> A small API expecting light traffic is being deployed. Which server specification choice is justified by the requirements?<br/>a. The largest tier available, to be safe &nbsp; b. A small tier (e.g. 1 vCPU, 1 GB RAM) chosen from the expected load, scaled up later if monitoring shows it is needed &nbsp; c. No server at all &nbsp; d. One server per endpoint</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — A small tier (e.g. 1 vCPU, 1 GB RAM) chosen from the expected load, scaled up later if monitoring shows it is needed</p></details><p><b>49.</b> <span class="sag">[SAG 49]</span> Which is a suitable server operating system to install for a PHP + MySQL API on a cloud server?<br/>a. Ubuntu Server (Linux) &nbsp; b. Windows 95 &nbsp; c. Chrome OS &nbsp; d. watchOS</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>a</b> — Ubuntu Server (Linux)</p></details><p><b>50.</b> <span class="sag">[SAG 50]</span> How should web server user access be configured for the PHP files?<br/>a. chmod 777 on everything &nbsp; b. Files owned by the deploy user, readable by the web server's account (e.g. www-data), with .env readable only by those two and never world-readable &nbsp; c. Owned by root and writable by everyone &nbsp; d. Stored in the user's Downloads folder</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Files owned by the deploy user, readable by the web server's account (e.g. www-data), with .env readable only by those two and never world-readable</p></details><p><b>51.</b> <span class="sag">[SAG 51]</span> Which web server software would you select and install for this project on a Linux server?<br/>a. Apache HTTP Server or Nginx &nbsp; b. Apache Tomcat &nbsp; c. Microsoft Exchange &nbsp; d. MongoDB</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>a</b> — Apache HTTP Server or Nginx</p></details><p><b>52.</b> <span class="sag">[SAG 52]</span> Registering and configuring a domain name for the deployed API involves:<br/>a. Editing autoload.php &nbsp; b. Registering the name with a registrar and pointing a DNS A record at the server's IP address &nbsp; c. Renaming the project folder &nbsp; d. Setting PORT in .env</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Registering the name with a registrar and pointing a DNS A record at the server's IP address</p></details><p><b>53.</b> <span class="sag">[SAG 53]</span> Which step installs and configures the server-side scripting language on the cloud server?<br/>a. npm install php &nbsp; b. Installing php and php-mysql (pdo_mysql) packages, editing php.ini as needed, and running php-fpm or mod_php behind the web server &nbsp; c. Copying the .vsix file &nbsp; d. Running composer require laravel</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Installing php and php-mysql (pdo_mysql) packages, editing php.ini as needed, and running php-fpm or mod_php behind the web server</p></details><p><b>54.</b> <span class="sag">[SAG 54]</span> Database server installation and configuration, as part of web/cloud server setup, includes creating:<br/>a. A dedicated database user scoped to specific databases &nbsp; b. A shared root password for every developer &nbsp; c. A public database with no authentication &nbsp; d. A new GitHub repository</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>a</b> — A dedicated database user scoped to specific databases. Day 1 Phase 3 Step 1b: CREATE USER 'tesda_app'@'localhost' … GRANT ALL PRIVILEGES ON tesda_assessment_db.* — then .env points at that user, never root.</p></details><p><b>55.</b> <span class="sag">[SAG 55]</span> Which is a correct firewall configuration for this API's server?<br/>a. Disable the firewall so the API is reachable &nbsp; b. Allow only SSH (22), HTTP (80) and HTTPS (443); keep MySQL (3306) closed to the internet; optionally add a Web Application Firewall &nbsp; c. Open every port &nbsp; d. Block port 443</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Allow only SSH (22), HTTP (80) and HTTPS (443); keep MySQL (3306) closed to the internet; optionally add a Web Application Firewall</p></details><p><b>56.</b> <span class="sag">[SAG 56]</span> Installing and configuring HTTPS/SSL on a web/cloud server primarily protects against which risk, and which tool issues the certificate for free?<br/>a. Slow queries; phpMyAdmin &nbsp; b. Data transmitted in clear text being intercepted; Let's Encrypt (certbot) or Cloudflare &nbsp; c. Too many git commits; Jira &nbsp; d. Missing pdo_mysql; XAMPP</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Data transmitted in clear text being intercepted; Let's Encrypt (certbot) or Cloudflare</p></details><p><b>57.</b> <span class="sag">[SAG 57]</span> "Uptime requirements" in a web/cloud server configuration refer to:<br/>a. How long the candidate takes to type code &nbsp; b. How consistently the server stays available and running (e.g. 99.9%) &nbsp; c. How many tables exist in the schema &nbsp; d. How many oral questions are asked</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — How consistently the server stays available and running (e.g. 99.9%)</p></details><p><b>58.</b> <span class="sag">[SAG 58]</span> Web server access details, once configured, should be:<br/>a. Kept secret from everyone, including the client &nbsp; b. Submitted to relevant personnel for their use and evaluation &nbsp; c. Deleted immediately after configuration &nbsp; d. Posted publicly on social media</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Submitted to relevant personnel for their use and evaluation</p></details><p class="sag-el"><b>Develops web application using Model-View-Controller (MVC) framework (SAG 59–63)</b></p><p><b>59.</b> <span class="sag">[SAG 59]</span> Which of these is a PHP MVC framework named in the curriculum for framework comparison — and deliberately NOT used in this project?<br/>a. Django &nbsp; b. Laravel &nbsp; c. ASP.NET &nbsp; d. Express</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Laravel. Laravel would supply the router, request/response objects and a JWT package. The brief calls for vanilla PHP, so src/Core/ hand-writes the small subset this API needs.</p></details><p><b>60.</b> <span class="sag">[SAG 60]</span> How would Laravel normally be installed on a server, and what takes its place in this vanilla project?<br/>a. apt install laravel; nothing replaces it &nbsp; b. composer create-project laravel/laravel; here, the hand-written autoload.php plus the five src/Core classes (Env, Response, Request, Router, Jwt) provide the same plumbing with no install step &nbsp; c. npm install laravel; jQuery replaces it &nbsp; d. It cannot be installed</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — composer create-project laravel/laravel; here, the hand-written autoload.php plus the five src/Core classes (Env, Response, Request, Router, Jwt) provide the same plumbing with no install step</p></details><p><b>61.</b> <span class="sag">[SAG 61]</span> In the MVC pattern as applied to this vanilla PHP API, which layer holds the business logic and the SQL query?<br/>a. View &nbsp; b. Controller (the classes in src/Controllers) &nbsp; c. Router (src/Core/Router.php) &nbsp; d. Middleware (src/Middlewares)</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Controller (the classes in src/Controllers)</p></details><p><b>62.</b> <span class="sag">[SAG 62]</span> Which is an applicable way to test the MVC web application, including its View?<br/>a. Reading the code silently &nbsp; b. Opening public/items.html in the browser to exercise list / add / edit / delete through the API, and hitting each endpoint with Postman or curl for the failure cases &nbsp; c. Restarting MySQL &nbsp; d. Running php -l only</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Opening public/items.html in the browser to exercise list / add / edit / delete through the API, and hitting each endpoint with Postman or curl for the failure cases</p></details><p><b>63.</b> <span class="sag">[SAG 63]</span> What is submitted when the web application is complete?<br/>a. The .env file with real passwords &nbsp; b. The source code (git repository), the four docs, the schema and .env.example — the completed application with its software documentation &nbsp; c. Only a screenshot &nbsp; d. Only the vsix</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — The source code (git repository), the four docs, the schema and .env.example — the completed application with its software documentation</p></details><p class="sag-el"><b>Develops Application Programming Interface (API) * (SAG 64–69)</b></p><p><b>64.</b> <span class="sag">[SAG 64]</span> Which API style did this project adopt, and which style uses XML with a predefined service contract instead?<br/>a. GraphQL; REST &nbsp; b. REST (resources at /api/v1/items, HTTP verbs, JSON); SOAP &nbsp; c. SOAP; REST &nbsp; d. XML-RPC; GraphQL</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — REST (resources at /api/v1/items, HTTP verbs, JSON); SOAP</p></details><p><b>65.</b> <span class="sag">[SAG 65]</span> Which secure authentication protocol does this API implement for protected routes, and what are its three parts?<br/>a. Basic Auth; username, colon, password &nbsp; b. A JSON Web Token (HS256) sent as Authorization: Bearer &lt;token&gt;; header.payload.signature, base64url-encoded and HMAC-signed with JWT_SECRET &nbsp; c. A session cookie; id, path, domain &nbsp; d. An API key; key, secret, salt</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — A JSON Web Token (HS256) sent as Authorization: Bearer &lt;token&gt;; header.payload.signature, base64url-encoded and HMAC-signed with JWT_SECRET</p></details><p><b>66.</b> <span class="sag">[SAG 66]</span> Which web service communication protocol carries every request to this REST API?<br/>a. FTP &nbsp; b. HTTP (HTTPS in production) — methods GET/POST/PUT/DELETE, status codes, and JSON bodies &nbsp; c. SMTP &nbsp; d. WebSocket only</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — HTTP (HTTPS in production) — methods GET/POST/PUT/DELETE, status codes, and JSON bodies</p></details><p><b>67.</b> <span class="sag">[SAG 67]</span> Which mapping of HTTP methods to CRUD operations does this API implement for /api/v1/items?<br/>a. GET create, POST read, PUT delete, DELETE update &nbsp; b. POST create (201), GET read (all and /:id), PUT update (partial, COALESCE), DELETE delete — with 404 when the id does not exist &nbsp; c. Only GET for everything &nbsp; d. PATCH for everything</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — POST create (201), GET read (all and /:id), PUT update (partial, COALESCE), DELETE delete — with 404 when the id does not exist</p></details><p><b>68.</b> <span class="sag">[SAG 68]</span> Which response structure do the endpoints follow, so a consumer can rely on it?<br/>a. A different shape per endpoint &nbsp; b. A consistent JSON envelope: { status: 'success'|'error', message?, data?, count? } with the matching HTTP status code &nbsp; c. Plain text &nbsp; d. HTML tables</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — A consistent JSON envelope: { status: 'success'|'error', message?, data?, count? } with the matching HTTP status code</p></details><p><b>69.</b> <span class="sag">[SAG 69]</span> When the API is complete, what accompanies it on submission to relevant personnel?<br/>a. Nothing; the code speaks for itself &nbsp; b. Its software documentation — especially docs/API_DOCS.md listing every endpoint, method, auth requirement and response &nbsp; c. The candidate's .env &nbsp; d. The XAMPP installer</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Its software documentation — especially docs/API_DOCS.md listing every endpoint, method, auth requirement and response</p></details><p class="sag-el"><b>Applies security measures * (SAG 70–75)</b></p><p><b>70.</b> <span class="sag">[SAG 70]</span> What does 'basic API security (API key)' look like in this project?<br/>a. Sending the database password in the URL &nbsp; b. An API_KEY value in .env, sent by the client in an x-api-key header and checked by a middleware before the controller runs &nbsp; c. Hiding the port number &nbsp; d. Using port 3000</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — An API_KEY value in .env, sent by the client in an x-api-key header and checked by a middleware before the controller runs. The CORS header list already allows x-api-key; the Node edition's verifyApiKey guard is the same idea, checked by a PHP middleware here.</p></details><p><b>71.</b> <span class="sag">[SAG 71]</span> Which HTTP authentication scheme does the API use on protected routes, and how is it identified in the request?<br/>a. Digest; a hashed URL &nbsp; b. Bearer — the Authorization: Bearer &lt;token&gt; header, which AuthMiddleware splits on the space and verifies &nbsp; c. Basic — base64 of user:password &nbsp; d. Cookie only</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Bearer — the Authorization: Bearer &lt;token&gt; header, which AuthMiddleware splits on the space and verifies</p></details><p><b>72.</b> <span class="sag">[SAG 72]</span> Using placeholders in a PDO query, as in prepare('… WHERE email = ?') followed by execute([$email]), is a secure coding practice against:<br/>a. Cross-site scripting &nbsp; b. SQL injection &nbsp; c. Denial of service &nbsp; d. Session fixation</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — SQL injection</p></details><p><b>73.</b> <span class="sag">[SAG 73]</span> Which technique gives this API secure session management?<br/>a. Never-expiring tokens &nbsp; b. A stateless JWT with an exp claim (2 hours), verified on every request, plus 403 for a token that is expired or tampered with; if PHP sessions were used instead, session_regenerate_id() after login &nbsp; c. Storing the user id in a cookie without signing it &nbsp; d. Keeping sessions in a public text file</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — A stateless JWT with an exp claim (2 hours), verified on every request, plus 403 for a token that is expired or tampered with; if PHP sessions were used instead, session_regenerate_id() after login</p></details><p><b>74.</b> <span class="sag">[SAG 74]</span> Securing data transmission for this API in production means:<br/>a. Compressing responses &nbsp; b. Serving it over HTTPS (TLS) so tokens, passwords and JSON bodies are never sent in clear text &nbsp; c. Using a longer JWT &nbsp; d. Turning off CORS</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Serving it over HTTPS (TLS) so tokens, passwords and JSON bodies are never sent in clear text</p></details><p><b>75.</b> <span class="sag">[SAG 75]</span> This project has no helmet package. How does public/index.php set Content Security Policy and related protective headers?<br/>a. It cannot; only Node can set headers &nbsp; b. With plain header() calls at the top of public/index.php before any output: header("Content-Security-Policy: default-src 'self'"), header('X-Content-Type-Options: nosniff'), header('X-Frame-Options: DENY') &nbsp; c. By editing php.ini &nbsp; d. With a Composer package</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — With plain header() calls at the top of public/index.php before any output: header("Content-Security-Policy: default-src 'self'"), header('X-Content-Type-Options: nosniff'), header('X-Frame-Options: DENY')</p></details><p class="sag-el"><b>Conducts Testing * (SAG 76–86)</b></p><p><b>76.</b> <span class="sag">[SAG 76]</span> Which statement correctly determines the testing objectives for this API?<br/>a. Only the happy path matters &nbsp; b. Every endpoint must return its documented status and body for both success and failure: 201/400 on register, 200/401 on login, 401/403/201 on create, 404 on a missing id, JSON 404 on an unknown URL &nbsp; c. Testing is only for the assessor &nbsp; d. Only the health check needs testing</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Every endpoint must return its documented status and body for both success and failure: 201/400 on register, 200/401 on login, 401/403/201 on create, 404 on a missing id, JSON 404 on an unknown URL</p></details><p><b>77.</b> <span class="sag">[SAG 77]</span> A request to POST /api/v1/items with a valid token returns 500. Which is the correct test-and-fix approach?<br/>a. Remove the route &nbsp; b. Read the error in the php -S terminal (e.g. Class "App\Controllers\Jwt" not found), fix the cause (the missing use App\Core\Jwt;), re-run the same request and confirm 201 &nbsp; c. Restart the laptop &nbsp; d. Change the status code to 200</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Read the error in the php -S terminal (e.g. Class "App\Controllers\Jwt" not found), fix the cause (the missing use App\Core\Jwt;), re-run the same request and confirm 201</p></details><p><b>78.</b> <span class="sag">[SAG 78]</span> How should testing time and resources be allocated in the four-hour demonstration?<br/>a. Test only if time remains &nbsp; b. Reserve a fixed block — e.g. the last 30 minutes — for the full smoke test, and budget a RUN IT NOW check after every step so no failure is discovered at the end &nbsp; c. Spend the first hour testing an empty project &nbsp; d. Let the assessor test it</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Reserve a fixed block — e.g. the last 30 minutes — for the full smoke test, and budget a RUN IT NOW check after every step so no failure is discovered at the end</p></details><p><b>79.</b> <span class="sag">[SAG 79]</span> Which document records the test objectives and schedule, and is distributed to relevant personnel according to test procedures?<br/>a. A test plan, listing what will be tested, the expected results, when, and by whom &nbsp; b. The .gitignore file &nbsp; c. autoload.php &nbsp; d. The Kanban board only</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>a</b> — A test plan, listing what will be tested, the expected results, when, and by whom</p></details><p><b>80.</b> <span class="sag">[SAG 80]</span> The assessor (or client) reports that DELETE on a missing id returns 200 instead of 404. What is the correct handling of this feedback?<br/>a. Argue that 200 is fine &nbsp; b. Incorporate it: check $stmt-&gt;rowCount() === 0 and return Response::error('Item not found.', 404), re-test, and commit the change &nbsp; c. Ignore it until after submission &nbsp; d. Delete the endpoint</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Incorporate it: check $stmt-&gt;rowCount() === 0 and return Response::error('Item not found.', 404), re-test, and commit the change</p></details><p><b>81.</b> <span class="sag">[SAG 81]</span> Which is a correct way to copy the code into a testing environment?<br/>a. Test directly on the production database &nbsp; b. git clone (or copy) the repository into a separate folder and point its .env at a separate test database (e.g. tesda_assessment_test), so tests never touch production data &nbsp; c. Email the files to yourself &nbsp; d. Copy only index.php</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — git clone (or copy) the repository into a separate folder and point its .env at a separate test database (e.g. tesda_assessment_test), so tests never touch production data</p></details><p><b>82.</b> <span class="sag">[SAG 82]</span> After a test reveals a bug, how are alterations to the code administered?<br/>a. Edit the file in production and hope &nbsp; b. Fix it in the working copy, re-run the failing test until it passes, then git commit with a message that says what changed and why &nbsp; c. Rename the function &nbsp; d. Comment out the test</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Fix it in the working copy, re-run the failing test until it passes, then git commit with a message that says what changed and why</p></details><p><b>83.</b> <span class="sag">[SAG 83]</span> How is the tested code integrated into the production environment?<br/>a. Drag the folder onto the desktop &nbsp; b. Pull the committed code onto the server (git pull), import database/schema.sql, set the production .env (real DB user, new JWT_SECRET), and restart php-fpm/Apache &nbsp; c. Paste it into phpMyAdmin &nbsp; d. Re-run Create Folder Structure</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Pull the committed code onto the server (git pull), import database/schema.sql, set the production .env (real DB user, new JWT_SECRET), and restart php-fpm/Apache</p></details><p><b>84.</b> <span class="sag">[SAG 84]</span> Administering a full system test across every endpoint in sequence, and documenting the outcome for later development phases, satisfies which part of the qualification?<br/>a. Conduct Testing (Unit 3) &nbsp; b. Configure Server (Unit 2) &nbsp; c. Utilize Code Versioning Tools (Unit 1) &nbsp; d. Apply Security Measures (Unit 3)</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>a</b> — Conduct Testing (Unit 3). The Step 12 smoke test (health, register, login, list, create, summary, read one, update, delete, unknown URL) is exactly this.</p></details><p><b>85.</b> <span class="sag">[SAG 85]</span> Where and how should the outcomes of the system test be documented for subsequent development phases?<br/>a. Nowhere; memory is enough &nbsp; b. In a test report (or the API docs' sample responses): each endpoint, the request sent, the expected and actual result, pass/fail, and any defect found &nbsp; c. In the .env file &nbsp; d. In the git config</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — In a test report (or the API docs' sample responses): each endpoint, the request sent, the expected and actual result, pass/fail, and any defect found</p></details><p><b>86.</b> <span class="sag">[SAG 86]</span> How is the result of the system test evaluated to determine whether the system is acceptable?<br/>a. If the health check works, ship it &nbsp; b. Compare results against the objectives: every critical endpoint (register, login, protected create, CRUD, 404 paths) passes its expected outcome; any failed critical item means not acceptable until fixed and re-tested &nbsp; c. Count the lines of code &nbsp; d. Ask the client to guess</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> — Compare results against the objectives: every critical endpoint (register, login, protected create, CRUD, 404 paths) passes its expected outcome; any failed critical item means not acceptable until fixed and re-tested</p></details>
+<h4>Bonus &mdash; PHP/OOP Delta Items (87&ndash;101), for the oral questioning</h4><p>Not tied to a single SAG line. These cover only what is genuinely different when the same qualification is demonstrated in vanilla OOP PHP instead of Node/Express &mdash; the questions an assessor who has seen the Node version is most likely to ask.</p><p><b>87.</b> Which PHP superglobal holds the raw, un-parsed request body for a POST request?<br/>a. $_POST &nbsp; b. $_REQUEST &nbsp; c. php://input (via file_get_contents) &nbsp; d. $_SERVER</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>c</b> &mdash; $_POST only auto-populates for form-encoded bodies. A raw JSON body must be read with file_get_contents('php://input') and json_decode().</p></details><p><b>88.</b> Which built-in PHP function safely hashes a password for storage, with no external package required?<br/>a. md5() &nbsp; b. crypt() &nbsp; c. password_hash() &nbsp; d. base64_encode()</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>c</b> &mdash; password_hash() (paired with password_verify()) is the modern, salted, adaptive-cost standard built into PHP core.</p></details><p><b>89.</b> What is the PHP/PDO equivalent of mysql2's parameterized query placeholder?<br/>a. String concatenation &nbsp; b. A ? or :name placeholder in prepare(), filled by execute() &nbsp; c. addslashes() &nbsp; d. htmlspecialchars()</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> &mdash; PDO prepared statements use the same placeholder-and-bind pattern as mysql2, and protect against SQL injection the same way.</p></details><p><b>90.</b> Why does this playbook write a custom autoload.php instead of using Composer's autoloader?<br/>a. Composer cannot autoload PHP classes &nbsp; b. The brief calls for vanilla PHP with no package manager or framework &nbsp; c. spl_autoload_register() is deprecated &nbsp; d. Namespaces do not work without Composer</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> &mdash; Composer's autoloader does the same job, generated instead of hand-written — a fine choice on the job, but outside a 'vanilla, no dependencies' constraint.</p></details><p><b>91.</b> In PDO, which call permanently saves the changes made inside a transaction?<br/>a. $db-&gt;save() &nbsp; b. $db-&gt;commit() &nbsp; c. $db-&gt;beginTransaction() &nbsp; d. $db-&gt;exec()</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> &mdash; Same role as mysql2's connection.commit().</p></details><p><b>92.</b> A PHP script processes one HTTP request and then its process ends. What does this mean for the Database class's static $connection property?<br/>a. It is shared across all future requests automatically &nbsp; b. It only avoids opening the connection twice within the same request; a fresh PHP process/request gets a fresh connection &nbsp; c. It behaves exactly like Node's long-lived connection pool &nbsp; d. It must be manually closed with $db-&gt;release()</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> &mdash; PHP's per-request lifecycle (with the built-in server, or PHP-FPM) means there is no persistent process to pool connections across, unlike Node's long-running event loop.</p></details><p><b>93.</b> Which PHP function compares two strings in constant time, avoiding a timing side-channel — used when checking a JWT signature?<br/>a. strcmp() &nbsp; b. == &nbsp; c. hash_equals() &nbsp; d. in_array()</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>c</b> &mdash; hash_equals() is specifically designed for comparing secret values like signatures and tokens.</p></details><p><b>94.</b> What does PDO's PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION setting change?<br/>a. It disables prepared statements &nbsp; b. A failed query throws a catchable exception instead of silently returning false &nbsp; c. It encrypts the connection &nbsp; d. It enables autocommit</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> &mdash; Without it, a broken query can fail silently and the bug goes unnoticed until the missing data is noticed elsewhere.</p></details><p><b>95.</b> Which line is the PHP built-in server's own equivalent of Express's express.static() middleware?<br/>a. echo file_get_contents($path); &nbsp; b. return false; from the router script, when the requested path is an existing file &nbsp; c. header('Content-Type: text/html'); &nbsp; d. There is no equivalent; static files cannot be served by php -S</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> &mdash; When the script php -S routes every request through returns false, the built-in server serves the requested file itself.</p></details><p><b>96.</b> Why does AuthMiddleware in this playbook return 403 (not 401) for a token that fails to verify?<br/>a. 403 is used for any authentication failure &nbsp; b. 401 means no credentials were presented at all; 403 means credentials were presented but rejected &nbsp; c. PDO requires 403 for expired sessions &nbsp; d. There is no meaningful difference</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> &mdash; Same split used in the Node edition: missing vs. invalid credentials get different status codes.</p></details><p><b>97.</b> What replaces jsonwebtoken in this vanilla PHP project?<br/>a. Nothing — tokens are not used &nbsp; b. A hand-written Jwt class using hash_hmac() for HS256 signing &nbsp; c. PHP's built-in session_start() &nbsp; d. MySQL's own authentication plugin</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> &mdash; hash_hmac('sha256', ...) is the same algorithm jsonwebtoken uses under the hood for HS256, called directly.</p></details><p><b>98.</b> In this project's Router, what determines whether /api/v1/items/summary or /api/v1/items/:id matches first?<br/>a. Whichever pattern is alphabetically first &nbsp; b. Registration order — routes are matched top to bottom, same as Express &nbsp; c. PHP always prefers the more specific literal pattern automatically &nbsp; d. Route order does not matter in PHP</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> &mdash; The hand-written Router.php loops through registered routes in order and returns the first match — PHP does not add automatic specificity resolution just because you're not using Express.</p></details><p><b>99.</b> Which of these is true of PDO's execute([...]) when one of the array values is PHP null?<br/>a. It throws a TypeError &nbsp; b. It is bound as SQL NULL, which is what makes COALESCE(?, column) work for an omitted field &nbsp; c. It is silently skipped, leaving one fewer bound parameter &nbsp; d. It is converted to the string "null"</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> &mdash; Verified directly in this playbook's own testing: updating only price left the other COALESCE-guarded columns unchanged.</p></details><p><b>100.</b> What is the practical difference between mysqli and PDO for this project's purposes?<br/>a. mysqli cannot use prepared statements &nbsp; b. PDO can connect to multiple database engines via the same API (MySQL, SQLite, Postgres); mysqli is MySQL-only &nbsp; c. PDO is not object-oriented &nbsp; d. There is no difference</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> &mdash; Both support prepared statements and OOP usage; PDO's main practical edge here is driver portability.</p></details><p><b>101.</b> A candidate demonstrating this PHP version is asked, "why OOP instead of writing plain procedural scripts?" What is the strongest honest answer from this codebase?<br/>a. OOP is required by TESDA for all PHP projects &nbsp; b. Classes group related state and behavior (e.g. Database's one connection, Jwt's encode/decode pair) and make the same Router/Request/Controller pattern reusable across every endpoint, the same structural benefit MVC gives the Node version &nbsp; c. Procedural PHP cannot connect to MySQL &nbsp; d. OOP makes the code run faster</p><details class="answer"><summary>Show Answer</summary><p>Answer: <b>b</b> &mdash; The honest justification is code organization and reuse, not a technical requirement or a performance claim.</p></details></section><section id="p2-checklist"><h2>Final Checklist Before You Present</h2><ul><li>MySQL is running and a throwaway <code class="inline">Database::getConnection()</code> call succeeds.</li><li><code class="inline">php -S localhost:3000 -t public</code> starts with no errors and the health check answers.</li><li>Register, login, create, read all, read one, summary, update and delete all pass in Postman.</li><li>A protected route rejects a missing token with 401, and a tampered token with 403.</li><li>activity_logs contains a row for every item you created, proving the transaction.</li><li>items.html loads at /items.html and lists, creates, edits, and deletes items through the browser.</li><li>You can point at any file and say in one sentence which tier it belongs to, and which piece of Express it replaces (if any).</li></ul></section><section id="p2-appendix"><h2>Appendix. Final Version Of Every File That Grew</h2><p>Use this only to check your work. Files written once and never changed &mdash; database/schema.sql (Step 1), autoload.php, src/Core/Env.php and src/Config/Database.php (Step 2), src/Core/Response.php and Request.php and Router.php and Jwt.php, and src/Middlewares/AuthMiddleware.php &mdash; are not repeated here since they already appear in full above. A complete, runnable copy of every file is in <code class="inline">php_mysql/reference-app</code> beside this guide.</p><h3>A1. src/Controllers/AuthController.php (FINAL)</h3><div class="codeblock"><div class="codecap"><span>src/Controllers/AuthController.php (final)</span><button type="button">copy</button></div><pre>&lt;?php
+
+namespace App\Controllers;
+
+use App\Config\Database;
+use App\Core\Env;
+use App\Core\Jwt;
+use App\Core\Request;
+use App\Core\Response;
+use PDO;
+
+class AuthController
+{
+    // POST /api/v1/auth/register
+    public function register(Request $request): void
+    {
+        $username = $request-&gt;body['username'] ?? null;
+        $email = $request-&gt;body['email'] ?? null;
+        $password = $request-&gt;body['password'] ?? null;
+
+        if (!$username || !$email || !$password) {
+            Response::error('All fields are required.', 400);
+        }
+
+        $db = Database::getConnection();
+
+        $stmt = $db-&gt;prepare('SELECT id FROM users WHERE email = ? OR username = ?');
+        $stmt-&gt;execute([$email, $username]);
+
+        if ($stmt-&gt;fetch() !== false) {
+            Response::error('Username or email already in use.', 400);
+        }
+
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+        $stmt = $db-&gt;prepare('INSERT INTO users (username, email, password) VALUES (?, ?, ?)');
+        $stmt-&gt;execute([$username, $email, $hashedPassword]);
+
+        Response::success([
+            'message' =&gt; 'User registered successfully.',
+            'userId' =&gt; (int) $db-&gt;lastInsertId(),
+        ], 201);
+    }
+
+    // POST /api/v1/auth/login
+    public function login(Request $request): void
+    {
+        $email = $request-&gt;body['email'] ?? null;
+        $password = $request-&gt;body['password'] ?? null;
+
+        if (!$email || !$password) {
+            Response::error('Email and password are required.', 400);
+        }
+
+        $db = Database::getConnection();
+        $stmt = $db-&gt;prepare('SELECT * FROM users WHERE email = ?');
+        $stmt-&gt;execute([$email]);
+        $user = $stmt-&gt;fetch();
+
+        if ($user === false) {
+            Response::error('Invalid credentials.', 401);
+        }
+
+        if (!password_verify($password, $user['password'])) {
+            Response::error('Invalid credentials.', 401);
+        }
+
+        $payload = ['id' =&gt; (int) $user['id'], 'username' =&gt; $user['username'], 'role' =&gt; $user['role']];
+        $token = Jwt::encode($payload, Env::get('JWT_SECRET', 'fallback_secret'), 7200);
+
+        Response::success([
+            'message' =&gt; 'Login successful.',
+            'token' =&gt; $token,
+        ]);
+    }
+}</pre></div><h3>A2. src/Controllers/ItemController.php (FINAL)</h3><div class="codeblock"><div class="codecap"><span>src/Controllers/ItemController.php (final)</span><button type="button">copy</button></div><pre>&lt;?php
+
+namespace App\Controllers;
+
+use App\Config\Database;
+use App\Core\Request;
+use App\Core\Response;
+use Throwable;
+
+class ItemController
+{
+    // GET /api/v1/items?search=&amp;category_id=&amp;min_price=&amp;max_price=
+    public function getAll(Request $request): void
+    {
+        $db = Database::getConnection();
+
+        $sql = "
+            SELECT
+                i.id, i.title, i.description, i.price, i.created_at,
+                c.name AS category_name,
+                u.username AS author_name,
+                u.email AS author_email
+            FROM items i
+            INNER JOIN users u ON i.user_id = u.id
+            LEFT JOIN categories c ON i.category_id = c.id
+            WHERE 1=1
+        ";
+        $params = [];
+
+        if (!empty($request-&gt;query['search'])) {
+            $sql .= ' AND i.title LIKE ?';
+            $params[] = '%' . $request-&gt;query['search'] . '%';
+        }
+        if (!empty($request-&gt;query['category_id'])) {
+            $sql .= ' AND i.category_id = ?';
+            $params[] = $request-&gt;query['category_id'];
+        }
+        if (!empty($request-&gt;query['min_price'])) {
+            $sql .= ' AND i.price &gt;= ?';
+            $params[] = $request-&gt;query['min_price'];
+        }
+        if (!empty($request-&gt;query['max_price'])) {
+            $sql .= ' AND i.price &lt;= ?';
+            $params[] = $request-&gt;query['max_price'];
+        }
+
+        $sql .= ' ORDER BY i.created_at DESC';
+
+        $stmt = $db-&gt;prepare($sql);
+        $stmt-&gt;execute($params);
+        $items = $stmt-&gt;fetchAll();
+
+        Response::success(['count' =&gt; count($items), 'data' =&gt; $items]);
+    }
+
+    // POST /api/v1/items  (Create Item inside an ACID Database Transaction)
+    public function create(Request $request): void
+    {
+        $title = $request-&gt;body['title'] ?? null;
+        $description = $request-&gt;body['description'] ?? '';
+        $price = $request-&gt;body['price'] ?? null;
+        $categoryId = $request-&gt;body['category_id'] ?? null;
+        $userId = $request-&gt;user['id'] ?? null;
+
+        if (!$title || $price === null) {
+            Response::error('Title and price are required.', 400);
+        }
+
+        $db = Database::getConnection();
+
+        try {
+            $db-&gt;beginTransaction();
+
+            $stmt = $db-&gt;prepare(
+                'INSERT INTO items (title, description, price, category_id, user_id) VALUES (?, ?, ?, ?, ?)'
+            );
+            $stmt-&gt;execute([$title, $description, $price, $categoryId, $userId]);
+            $newItemId = (int) $db-&gt;lastInsertId();
+
+            $stmt = $db-&gt;prepare('INSERT INTO activity_logs (user_id, action) VALUES (?, ?)');
+            $stmt-&gt;execute([$userId, "Created item #{$newItemId}: \"{$title}\""]);
+
+            $db-&gt;commit();
+
+            Response::success([
+                'message' =&gt; 'Item created and activity logged successfully via Database Transaction.',
+                'itemId' =&gt; $newItemId,
+            ], 201);
+        } catch (Throwable $e) {
+            $db-&gt;rollBack();
+            Response::error($e-&gt;getMessage(), 500);
+        }
+    }
+
+    // GET /api/v1/items/:id  (Read One)
+    public function getOne(Request $request): void
+    {
+        $db = Database::getConnection();
+        $stmt = $db-&gt;prepare("
+            SELECT
+                i.id, i.title, i.description, i.price, i.created_at,
+                c.name AS category_name,
+                u.username AS author_name
+            FROM items i
+            INNER JOIN users u ON i.user_id = u.id
+            LEFT JOIN categories c ON i.category_id = c.id
+            WHERE i.id = ?
+        ");
+        $stmt-&gt;execute([$request-&gt;params['id']]);
+        $item = $stmt-&gt;fetch();
+
+        if ($item === false) {
+            Response::error('Item not found.', 404);
+        }
+
+        Response::success(['data' =&gt; $item]);
+    }
+
+    // GET /api/v1/items/summary  (Analytics with GROUP BY, HAVING, ORDER BY)
+    public function summary(Request $request): void
+    {
+        $db = Database::getConnection();
+        $stmt = $db-&gt;query("
+            SELECT
+                c.id AS category_id,
+                c.name AS category_name,
+                COUNT(i.id) AS total_items,
+                AVG(i.price) AS average_price,
+                MAX(i.price) AS max_price
+            FROM categories c
+            LEFT JOIN items i ON c.id = i.category_id
+            GROUP BY c.id, c.name
+            HAVING total_items &gt; 0
+            ORDER BY average_price DESC
+        ");
+        $summary = $stmt-&gt;fetchAll();
+
+        Response::success(['count' =&gt; count($summary), 'data' =&gt; $summary]);
+    }
+
+    // PUT /api/v1/items/:id  (Update)
+    public function update(Request $request): void
+    {
+        $db = Database::getConnection();
+        $stmt = $db-&gt;prepare('
+            UPDATE items SET
+                title = COALESCE(?, title),
+                description = COALESCE(?, description),
+                price = COALESCE(?, price),
+                category_id = COALESCE(?, category_id)
+            WHERE id = ?
+        ');
+        $stmt-&gt;execute([
+            $request-&gt;body['title'] ?? null,
+            $request-&gt;body['description'] ?? null,
+            $request-&gt;body['price'] ?? null,
+            $request-&gt;body['category_id'] ?? null,
+            $request-&gt;params['id'],
+        ]);
+
+        if ($stmt-&gt;rowCount() === 0) {
+            Response::error('Item not found or no changes made.', 404);
+        }
+
+        Response::success(['message' =&gt; 'Item updated successfully.']);
+    }
+
+    // DELETE /api/v1/items/:id
+    public function delete(Request $request): void
+    {
+        $db = Database::getConnection();
+        $stmt = $db-&gt;prepare('DELETE FROM items WHERE id = ?');
+        $stmt-&gt;execute([$request-&gt;params['id']]);
+
+        if ($stmt-&gt;rowCount() === 0) {
+            Response::error('Item not found.', 404);
+        }
+
+        Response::success(['message' =&gt; 'Item deleted successfully.']);
+    }
+}</pre></div><h3>A3. public/index.php (FINAL)</h3><div class="codeblock"><div class="codecap"><span>public/index.php (final)</span><button type="button">copy</button></div><pre>&lt;?php
+
+// public/index.php - FINAL (front controller)
+require __DIR__ . '/../autoload.php';
+
+use App\Controllers\AuthController;
+use App\Controllers\ItemController;
+use App\Core\Env;
+use App\Core\Response;
+use App\Core\Router;
+use App\Middlewares\AuthMiddleware;
+
+Env::load(__DIR__ . '/../.env');
+
+// Security headers, hand-rolled (this is what helmet() does in the Node version)
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: DENY');
+header("Content-Security-Policy: default-src 'self'");
+
+// CORS, hand-rolled (this is what cors() does in the Node version)
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, x-api-key');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
+
+$requestUri = $_SERVER['REQUEST_URI'];
+$requestPath = parse_url($requestUri, PHP_URL_PATH);
+
+// Health check, before routing and before the static file check below
+if ($requestPath === '/') {
+    Response::json([
+        'status' =&gt; 'online',
+        'message' =&gt; 'TESDA NC III Backend API Server Running (PHP)',
+        'version' =&gt; 'v1.0.0',
+    ]);
+}
+
+// Serve the public/ folder's own static files (e.g. /items.html) directly,
+// the same role express.static() plays in the Node version.
+$staticFile = __DIR__ . $requestPath;
+if ($requestPath !== '/' &amp;&amp; is_file($staticFile)) {
+    return false; // let the PHP built-in server / Apache serve it as-is
+}
+
+$router = new Router();
+$authMiddleware = new AuthMiddleware();
+$auth = new AuthController();
+$items = new ItemController();
+
+$router-&gt;post('/api/v1/auth/register', [$auth, 'register']);
+$router-&gt;post('/api/v1/auth/login', [$auth, 'login']);
+
+$router-&gt;get('/api/v1/items', [$items, 'getAll']);
+$router-&gt;get('/api/v1/items/summary', [$items, 'summary']); // must stay above /:id
+$router-&gt;get('/api/v1/items/:id', [$items, 'getOne']);
+$router-&gt;post('/api/v1/items', [$items, 'create'], [$authMiddleware]);
+$router-&gt;put('/api/v1/items/:id', [$items, 'update'], [$authMiddleware]);
+$router-&gt;delete('/api/v1/items/:id', [$items, 'delete'], [$authMiddleware]);
+
+try {
+    $router-&gt;dispatch($_SERVER['REQUEST_METHOD'], $requestUri);
+} catch (Throwable $e) {
+    error_log('Server Error: ' . $e-&gt;getMessage());
+    Response::error('Internal Server Error', 500);
+}</pre></div><h3>A4. Practice Drill</h3><p>Once the walkthrough works end to end, delete src/, autoload.php, and public/index.php, then rebuild them from Step 2 to Step 12 without looking. Repeat until you can reach a working register test in under fifteen minutes.</p></section></main>
+</div>
+<footer>PHP + MySQL (vanilla OOP) edition of the Day 2 code playbook. Runnable, tested reference code lives in php_mysql/reference-app.</footer>
+<script>
+document.querySelectorAll('.codecap button').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var pre = btn.closest('.codeblock').querySelector('pre');
+    var text = pre.innerText;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function(){
+        btn.textContent = 'copied';
+        setTimeout(function(){ btn.textContent = 'copy'; }, 1200);
+      });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); btn.textContent = 'copied'; } catch(e){}
+      document.body.removeChild(ta);
+      setTimeout(function(){ btn.textContent = 'copy'; }, 1200);
+    }
+  });
+});
+</script>
+</body>
+</html>

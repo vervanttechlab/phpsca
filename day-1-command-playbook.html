@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 1 PHP Command Playbook - TESDA NC III</title>
+<style>
+:root{
+  --bg:#f6f7f9; --panel:#ffffff; --ink:#1b2430; --muted:#5d6b7a; --line:#dfe4ea;
+  --brand:#0f4c81; --brand-ink:#0b3a63;
+  --code-bg:#f2f4f6; --code-ink:#1d2b36; --cap:#e7ecf1;
+  --why:#e8f0fe; --run:#e4f3e2; --new:#f4e9fd; --add:#fde9e9; --warn:#fff4ce;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#12161c; --panel:#181e26; --ink:#e6ecf2; --muted:#9fb0c0; --line:#2a333e;
+    --brand:#7fb3e0; --brand-ink:#a8ccec;
+    --code-bg:#0f141a; --code-ink:#d7e3ee; --cap:#212a34;
+    --why:#152437; --run:#16281a; --new:#241833; --add:#331a1a; --warn:#332a12;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.62 "Segoe UI",system-ui,-apple-system,Arial,sans-serif}
+.wrap{display:flex;align-items:flex-start;max-width:1280px;margin:0 auto}
+nav.toc{position:sticky;top:0;flex:0 0 268px;height:100vh;overflow-y:auto;
+  padding:22px 16px 40px;border-right:1px solid var(--line)}
+nav.toc h2{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+nav.toc a{display:block;padding:5px 8px;border-radius:5px;color:var(--ink);
+  text-decoration:none;font-size:13px;line-height:1.4}
+nav.toc a:hover{background:var(--cap)}
+nav.toc a.home{color:var(--brand);font-weight:600;margin-bottom:12px}
+main{flex:1 1 auto;min-width:0;padding:26px 30px 90px}
+header.pagehead{border-bottom:2px solid var(--brand);padding-bottom:14px;margin-bottom:8px}
+header.pagehead h1{margin:0 0 6px;font-size:25px;color:var(--brand);line-height:1.25}
+header.pagehead p{margin:0;color:var(--muted);font-size:14px}
+section{background:var(--panel);border:1px solid var(--line);border-radius:9px;
+  padding:18px 22px 22px;margin:20px 0}
+section>h2{margin:0 0 4px;font-size:19px;color:var(--brand);line-height:1.3}
+h3{font-size:15px;margin:20px 0 6px;color:var(--brand-ink)}
+p{margin:9px 0}
+ul,ol{margin:9px 0;padding-left:22px}
+li{margin:4px 0}
+code.inline{background:var(--code-bg);padding:1px 5px;border-radius:4px;
+  font-family:Consolas,"Courier New",monospace;font-size:13px}
+.callout{border-radius:7px;padding:11px 14px;margin:12px 0;font-size:14px}
+.callout b{display:inline-block;margin-right:6px;letter-spacing:.03em}
+.why{background:var(--why)} .run{background:var(--run)} .newf{background:var(--new)}
+.addf{background:var(--add)} .warn{background:var(--warn)}
+.codeblock{margin:14px 0;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.codecap{background:var(--cap);padding:6px 12px;font-size:12px;color:var(--muted);
+  display:flex;justify-content:space-between;align-items:center;gap:10px}
+.codecap span{font-family:Consolas,"Courier New",monospace}
+.codecap button{background:transparent;border:1px solid var(--line);color:var(--muted);
+  border-radius:4px;padding:2px 9px;font-size:11px;cursor:pointer}
+.codecap button:hover{color:var(--ink)}
+pre{margin:0;padding:13px 14px;background:var(--code-bg);color:var(--code-ink);
+  overflow-x:auto;font-family:Consolas,"Courier New",monospace;font-size:12.6px;line-height:1.55}
+table{width:100%;border-collapse:collapse;margin:13px 0;font-size:13.5px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--cap);font-size:12.5px}
+footer{color:var(--muted);font-size:12.5px;padding:20px 30px 60px;max-width:1280px;margin:0 auto}
+@media(max-width:900px){
+  .wrap{display:block} nav.toc{position:static;height:auto;width:auto;flex:none;
+    border-right:0;border-bottom:1px solid var(--line)}
+  main{padding:18px}
+}
+@media print{
+  nav.toc{display:none} section{break-inside:avoid;border:0;padding:0}
+  body{background:#fff}
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><h2>Contents</h2><a class="home" href="../START-HERE.html">&#8592; Back to the hub</a><a href="day-2-code-playbook.html">Day 2: Code Playbook &#8594;</a><a href="#p1-before">Before You Start</a><a href="#p1-phase1">Phase 1. Start With ScaPExpress, Verify PHP &amp; MySQL</a><a href="#p1-phase2">Phase 2. Git &amp; Environment Setup</a><a href="#p1-phase3">Phase 3. OOP Folder Structure &amp; Database</a><a href="#p1-phase4">Phase 4. Documentation Generation</a><a href="#p1-phase5">Phase 5. Initial Git Commit</a></nav><main><header class="pagehead"><h1>Day 1 &mdash; PHP + MySQL Command Playbook</h1><p>Vanilla OOP PHP edition. Same milestones as the Node/Express Day 1: environment, folders, git, and documentation &mdash; no npm, no Composer, no framework.</p></header><section id="p1-before"><h2>Before You Start</h2><p>This is the PHP + MySQL version of the Day 1 command playbook. Same goals as the Node/Express edition &mdash; environment, folders, git, and documentation before any application code &mdash; but there is no npm here. Vanilla PHP needs no package manager and no build step: you write a .php file, and the server runs it.</p><div class="callout why"><b>WHY VANILLA, WHY OOP</b>No Composer, no framework (no Laravel, no Slim). Every class is one you write yourself, autoloaded by a nine-line autoloader you also write yourself. This mirrors exactly what the Node edition does with Express by hand: routes, middleware, controllers, one shared DB connection &mdash; just in PHP's own OOP syntax instead of JavaScript.</div><h3>Terminal &amp; Local Server Choice</h3><table><thead><tr><th>Option</th><th>Use when</th></tr></thead><tbody><tr><td>PHP built-in server (<code class="inline">php -S localhost:3000 -t public</code>)</td><td>Recommended. No Apache/XAMPP config needed, starts in one command, same one used throughout this playbook.</td></tr><tr><td>XAMPP / Apache + a virtual host</td><td>If the assessment machine already has XAMPP running Apache. Point the vhost's document root at this project's <code class="inline">public/</code> folder.</td></tr></tbody></table><p>Either way, MySQL still comes from XAMPP (or a standalone MySQL install) &mdash; only the PHP half changes.</p><div class="callout warn"><b>WINDOWS 11: USE GIT BASH</b>Every command block in this edition is written for Git Bash (<code class="inline">mkdir -p</code>, <code class="inline">touch</code>, <code class="inline">cat &lt;&lt; 'EOF'</code>, <code class="inline">grep</code>). Unlike the Node edition, no PowerShell or CMD alternatives are given here, so open Git Bash and stay in it for the whole session.</div></section><section id="p1-phase1"><h2>Phase 1. Start the Project with ScaPExpress, Then Verify PHP &amp; MySQL</h2><div class="callout warn"><b>CRITICAL</b>Do this while you still have the assessor's attention to ask about the machine's setup, before you are on your own. The project folder is created by the ScaPExpress extension in VS Code, not by hand &mdash; the manual commands are kept at the end of this phase only as a fallback.</div><h3>Step 1. Create the Project Folder: ScaPExpress &rarr; Initialize Project</h3><ol><li>Open VS Code with no folder open (File &rarr; New Window, or just start it).</li><li>Press <code class="inline">Ctrl+Shift+P</code> to open the Command Palette.</li><li>Type <code class="inline">scapexpress</code> &mdash; four commands appear. Select <b>ScaPExpress: Initialize Project (autoload.php only)</b>.</li><li>A folder picker opens: <b>Where should the project live?</b> Navigate to <code class="inline">Desktop</code> and click <b>Use this folder</b>.</li><li><b>Project folder name:</b> replace the default with <code class="inline">tesda-backend-api-php</code> and press Enter.</li><li>Pick <b>Create a new folder named tesda-backend-api-php</b>.</li><li><code class="inline">autoload.php</code> opens in the editor and a message appears bottom-right. Click <b>Open project</b>. VS Code reloads with <code class="inline">Desktop\tesda-backend-api-php</code> as the workspace.</li></ol><div class="callout run"><b>RUN IT NOW</b>The Explorer (left panel) shows exactly one file: <code class="inline">autoload.php</code>. That is the whole result of this step, on purpose &mdash; it is the PHP equivalent of the Node edition's <code class="inline">mkdir</code> + <code class="inline">npm init -y</code>: one folder, one file that everything else needs.</div><h3>Step 2. Create the Folder Structure: ScaPExpress &rarr; Create Folder Structure</h3><ol><li>Press <code class="inline">Ctrl+Shift+P</code> again.</li><li>Type <code class="inline">scapexpress</code> and select <b>ScaPExpress: Create Folder Structure (empty files)</b>.</li><li><b>Main resource you will CRUD:</b> keep <code class="inline">item</code> and press Enter.</li><li>A message reports how many files were created. Click <b>OK</b> / dismiss it.</li></ol><div class="callout run"><b>RUN IT NOW</b>The Explorer now shows the full tree from Phase 3: <code class="inline">database/</code>, <code class="inline">docs/</code>, <code class="inline">public/</code>, <code class="inline">src/Core</code>, <code class="inline">src/Config</code>, <code class="inline">src/Controllers</code> (empty), <code class="inline">src/Middlewares</code>, plus <code class="inline">.env</code>, <code class="inline">.env.example</code> and <code class="inline">.gitignore</code>. Open <code class="inline">src/Core/Router.php</code>: it is fully written. Open <code class="inline">src/Config/Database.php</code>: it is empty. Open <code class="inline">public/index.php</code>: a comment names the snippet that fills it. That split is deliberate &mdash; the plumbing PHP lacks is given to you; everything project-specific is still yours to type on Day 2.</div><div class="callout warn"><b>THE ONE RULE FOR SNIPPETS IN .php FILES</b>The file must already start with <code class="inline">&lt;?php</code> on line 1, and you type the prefix on the line <em>below</em> it. VS Code treats everything before <code class="inline">&lt;?php</code> as HTML and shows no PHP snippets there &mdash; a <code class="inline">test.php</code> containing only <code class="inline">api/register</code> shows nothing at all. The placeholders the extension writes already have the tag; <code class="inline">src/Config/Database.php</code> is the one file that comes empty, so type <code class="inline">&lt;?php</code>, Enter, then <code class="inline">sx-db</code>. Typing the <code class="inline">/</code> in <code class="inline">api/register</code> closes the popup: keep typing (<code class="inline">api/reg</code>) or press <code class="inline">Ctrl+Space</code>, or use the slash-free alias <code class="inline">sx-register</code>.</div><h3>Step 3. Open the Terminal Inside VS Code and Confirm PHP &amp; MySQL</h3><p>Everything from here on is typed in VS Code's own terminal so it always starts in the project folder: <code class="inline">Ctrl+`</code> (the key under Esc), or Terminal &rarr; New Terminal. If it opens PowerShell, click the <code class="inline">&#9662;</code> next to the <code class="inline">+</code> in the terminal panel and choose <b>Git Bash</b>; then click <code class="inline">&#9662;</code> &rarr; <b>Select Default Profile</b> &rarr; Git Bash so every new terminal is Git Bash too.</p><div class="codeblock"><div class="codecap"><span>terminal</span><button type="button">copy</button></div><pre>php -v
+php -m | grep -i pdo</pre></div><div class="callout warn"><b>"php: command not found" ON A XAMPP MACHINE</b>XAMPP installs PHP and MySQL but does not put them on the PATH. If <code class="inline">php -v</code> or <code class="inline">mysql</code> is not recognized, add them for this Git Bash session before going on (every <code class="inline">php</code> and <code class="inline">mysql</code> command in both playbooks depends on this):</div><div class="codeblock"><div class="codecap"><span>Git Bash</span><button type="button">copy</button></div><pre>export PATH="/c/xampp/php:/c/xampp/mysql/bin:$PATH"
+php -v
+mysql --version</pre></div><p>To make it permanent: Windows Settings &rarr; System &rarr; About &rarr; Advanced system settings &rarr; Environment Variables &rarr; edit Path &rarr; add <code class="inline">C:\xampp\php</code> and <code class="inline">C:\xampp\mysql\bin</code>, then reopen Git Bash.</p><p>Expected: a PHP 8.x version line, and <code class="inline">pdo_mysql</code> somewhere in the module list. If pdo_mysql is missing, enable it in php.ini (XAMPP's php.ini has it commented out by default with a leading semicolon on <code class="inline">extension=pdo_mysql</code>) and restart the server.</p><h3>Fallback: Create the Folder by Hand (only if the extension cannot be installed)</h3><div class="codeblock"><div class="codecap"><span>Git Bash</span><button type="button">copy</button></div><pre>cd ~/Desktop
+mkdir tesda-backend-api-php
+cd tesda-backend-api-php
+code .</pre></div><p>Then run Phase 3 Steps 2 and 3 for the folders and empty files, and type every file in full on Day 2 &mdash; the Day 2 listings contain everything the extension would have written.</p><p>Prefixes you will use on Day 1, once the structure exists (Phase 2 and 3 below give the same content as commands, for when you are not in VS Code):</p><table><thead><tr><th>File</th><th>Type this prefix, then Tab</th></tr></thead><tbody><tr><td><code class="inline">.env</code></td><td><code class="inline">env</code></td></tr><tr><td><code class="inline">.gitignore</code></td><td><code class="inline">ignore</code></td></tr><tr><td><code class="inline">database/schema.sql</code></td><td><code class="inline">sx-schema</code>, then <code class="inline">sx-db-user</code> for the non-root user</td></tr><tr><td><code class="inline">docs/SYSTEM_ARCHITECTURE.md</code></td><td><code class="inline">docs-arch</code></td></tr><tr><td><code class="inline">docs/SETUP_INSTRUCTIONS.md</code></td><td><code class="inline">docs-setup</code></td></tr><tr><td><code class="inline">docs/API_DOCS.md</code></td><td><code class="inline">docs-api</code></td></tr><tr><td><code class="inline">docs/TROUBLESHOOTING.md</code></td><td><code class="inline">docs-trouble</code></td></tr></tbody></table><p>The full prefix list, with where each one goes on Day 2, is in <code class="inline">VS Code Extension/scaforphp.md</code>.</p><div class="callout warn"><b>NOT ALLOWED</b>Do not install or enable GitHub Copilot, Codeium, Tabnine, or any AI code-completion extension. The assessment brief is explicit: no AI assistant during the practical demonstration. ScaPExpress is a snippet and scaffolding extension, not an AI tool &mdash; but confirm nothing else is active before you begin.</div><div class="callout warn"><b>NO COMPOSER, NO npm install</b>There is nothing to download for this project. Every class is written by hand in Phase 3. If your assessment machine loses internet access after this point, nothing about this playbook is affected.</div></section><section id="p1-phase2"><h2>Phase 2. Git &amp; Environment Setup</h2><div class="callout why"><b>WHY THIS STEP NOW</b>Same reasoning as the Node edition: prove the project does not depend on anything beyond what is in this folder and in MySQL.</div><h3>Step 1. Initialize Local Git</h3><div class="codeblock"><div class="codecap"><span>terminal</span><button type="button">copy</button></div><pre>git init
+git config user.name "TESDA Candidate"
+git config user.email "candidate@tesda.gov.ph"</pre></div><h3>Step 2. Create .gitignore</h3><div class="codeblock"><div class="codecap"><span>.gitignore</span><button type="button">copy</button></div><pre>cat &lt;&lt; 'EOF' &gt; .gitignore
+.env
+*.log
+*.sqlite
+EOF</pre></div><p>There is no <code class="inline">vendor/</code> or <code class="inline">node_modules/</code> to ignore &mdash; vanilla PHP has no dependency folder.</p><h3>Step 3. Create the Environment File (.env)</h3><div class="codeblock"><div class="codecap"><span>.env</span><button type="button">copy</button></div><pre>cat &lt;&lt; 'EOF' &gt; .env
+PORT=3000
+
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=
+DB_NAME=tesda_assessment_db
+
+JWT_SECRET=tesda_nc3_super_secret_jwt_key_2026
+API_KEY=tesda_secure_api_access_key
+EOF</pre></div><p>Also save a copy as <code class="inline">.env.example</code> with the same keys &mdash; safe to commit, tells the next developer what exists. Blank out the real password in the copy once you set one in Step 1b of Phase 3.</p><div class="codeblock"><div class="codecap"><span>terminal</span><button type="button">copy</button></div><pre>cp .env .env.example</pre></div><div class="callout warn"><b>PHP DOES NOT READ .env AUTOMATICALLY</b>Unlike Node's dotenv package, PHP has no built-in .env reader. Day 2, Step 2 writes a short <code class="inline">Env</code> class that does the one job dotenv does in the Node edition: read KEY=VALUE lines and put them into the environment. That class is the entire "dependency."</div></section><section id="p1-phase3"><h2>Phase 3. OOP Folder Structure, Database &amp; Starter Files</h2><div class="callout why"><b>WHY THIS STEP NOW</b>Same 4-table design as the Node edition, and the same non-root database user lesson &mdash; the qualification's "Connect to Database" requirement does not change by programming language.</div><h3>Step 1. Create the Database</h3><div class="codeblock"><div class="codecap"><span>terminal</span><button type="button">copy</button></div><pre>mysql -u root -e "CREATE DATABASE IF NOT EXISTS tesda_assessment_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"</pre></div><h3>Step 1b. Create a Dedicated Database User (Not Root)</h3><div class="codeblock"><div class="codecap"><span>terminal</span><button type="button">copy</button></div><pre>mysql -u root -e "CREATE USER IF NOT EXISTS 'tesda_app'@'localhost' IDENTIFIED BY 'ChangeThisPassword123!'; GRANT ALL PRIVILEGES ON tesda_assessment_db.* TO 'tesda_app'@'localhost'; FLUSH PRIVILEGES;"</pre></div><p>Then update <code class="inline">.env</code>: <code class="inline">DB_USER=tesda_app</code> and <code class="inline">DB_PASS=ChangeThisPassword123!</code> (matching whatever password you used).</p><h3>Step 2. Create the OOP MVC Folder Structure</h3><div class="callout why"><b>ALREADY DONE?</b>If you ran <code class="inline">ScaPExpress: Create Folder Structure</code> in Phase 1 Step 2, Steps 2 and 3 here are already on disk &mdash; skip to Phase 4, or run them anyway (they are safe to repeat: <code class="inline">mkdir -p</code> and <code class="inline">touch</code> never overwrite).</div><div class="codeblock"><div class="codecap"><span>terminal</span><button type="button">copy</button></div><pre>mkdir -p public
+mkdir -p database
+mkdir -p docs
+mkdir -p src/Core
+mkdir -p src/Config
+mkdir -p src/Controllers
+mkdir -p src/Middlewares</pre></div><table><thead><tr><th>Folder</th><th>Node/Express equivalent</th><th>Holds</th></tr></thead><tbody><tr><td><code class="inline">public/</code></td><td>project root (server.js lived there)</td><td>index.php (front controller) and any static files, e.g. items.html</td></tr><tr><td><code class="inline">src/Core/</code></td><td>no direct equivalent &amp;mdash; Express provides this</td><td>Env, Response, Request, Router, Jwt &amp;mdash; the plumbing Express gives you for free</td></tr><tr><td><code class="inline">src/Config/</code></td><td>src/config/</td><td>Database.php, the PDO connection</td></tr><tr><td><code class="inline">src/Controllers/</code></td><td>src/controllers/</td><td>AuthController.php, ItemController.php</td></tr><tr><td><code class="inline">src/Middlewares/</code></td><td>src/middlewares/</td><td>AuthMiddleware.php</td></tr></tbody></table><div class="callout warn"><b>WHY src/Core/ EXISTS AND HAS NO NODE EQUIVALENT</b>Express quietly provides a request object, a response object, and a router. Vanilla PHP provides none of that &mdash; <code class="inline">$_SERVER</code>, <code class="inline">$_GET</code> and raw strings are all you get. src/Core/ is where Day 2 builds those missing pieces once, in about 150 lines total, so every controller afterward can assume they exist &mdash; exactly the way every Express project silently assumes req/res/router exist.</div><h3>Step 3. Create the Starter Files</h3><div class="codeblock"><div class="codecap"><span>terminal</span><button type="button">copy</button></div><pre>touch autoload.php
+touch database/schema.sql
+touch src/Core/Env.php
+touch src/Core/Response.php
+touch src/Core/Request.php
+touch src/Core/Router.php
+touch src/Core/Jwt.php
+touch src/Config/Database.php
+touch src/Middlewares/AuthMiddleware.php
+touch src/Controllers/AuthController.php
+touch src/Controllers/ItemController.php
+touch public/index.php</pre></div></section><section id="p1-phase4"><h2>Phase 4. Technical Documentation Generation</h2><p>Same four files as the Node edition, same purpose, adjusted for PHP's own commands.</p><h3>File 1. SYSTEM_ARCHITECTURE.md</h3><div class="codeblock"><div class="codecap"><span>docs/SYSTEM_ARCHITECTURE.md</span><button type="button">copy</button></div><pre>cat &lt;&lt; 'EOF' &gt; docs/SYSTEM_ARCHITECTURE.md
+# System Architecture
+
+## Architectural Pattern
+This project follows a 3-Tier Model-View-Controller (MVC) architecture, in vanilla
+object-oriented PHP (no framework):
+1. Presentation Layer: Client / Postman (HTTP Requests)
+2. Application Layer: PHP front controller (public/index.php), Router, Middlewares, Controllers
+3. Data Layer: MySQL via PDO
+
+## Request Flow
+[Client] -&gt; [public/index.php] -&gt; [Router] -&gt; [AuthMiddleware] -&gt; [Controller] -&gt; [PDO/MySQL]
+
+## Why a front controller
+PHP has no built-in router the way Express does. Every request that is not a static
+file is sent to public/index.php by .htaccess (Apache) or by `php -S` itself (built-in
+server), and index.php's own Router class matches the method and path to a Controller.
+EOF</pre></div><h3>File 2. SETUP_INSTRUCTIONS.md</h3><div class="codeblock"><div class="codecap"><span>docs/SETUP_INSTRUCTIONS.md</span><button type="button">copy</button></div><pre>cat &lt;&lt; 'EOF' &gt; docs/SETUP_INSTRUCTIONS.md
+# Setup &amp; Execution Guide
+
+## Prerequisites
+- PHP 8.1+ with pdo_mysql enabled
+- MySQL Engine / XAMPP (running on localhost:3306)
+
+## Steps to Run Application
+1. Copy .env.example to .env and fill in your DB credentials.
+2. Import database/schema.sql into MySQL.
+3. From the project root: php -S localhost:3000 -t public
+4. Base URL: http://localhost:3000
+5. Browser view: http://localhost:3000/items.html
+EOF</pre></div><h3>File 3. API_DOCS.md</h3><div class="codeblock"><div class="codecap"><span>docs/API_DOCS.md</span><button type="button">copy</button></div><pre>cat &lt;&lt; 'EOF' &gt; docs/API_DOCS.md
+# API Endpoint Specifications
+
+## Base URL: http://localhost:3000/api/v1
+
+| Endpoint | Method | Auth | Description |
+| :--- | :--- | :--- | :--- |
+| /auth/register | POST | None | Create new user account |
+| /auth/login | POST | None | Authenticate user and get JWT token |
+| /items | GET | Public | Retrieve all items (supports ?search, ?category_id, ?min_price, ?max_price) |
+| /items/summary | GET | Public | Category totals via GROUP BY / HAVING |
+| /items/:id | GET | Public | Retrieve single item by ID |
+| /items | POST | Bearer JWT | Create a new item inside a transaction |
+| /items/:id | PUT | Bearer JWT | Partial update via COALESCE |
+| /items/:id | DELETE | Bearer JWT | Delete item |
+EOF</pre></div><h3>File 4. TROUBLESHOOTING.md</h3><div class="codeblock"><div class="codecap"><span>docs/TROUBLESHOOTING.md</span><button type="button">copy</button></div><pre>cat &lt;&lt; 'EOF' &gt; docs/TROUBLESHOOTING.md
+# Troubleshooting Guide
+
+| Error | Cause | Resolution |
+| :--- | :--- | :--- |
+| SQLSTATE[HY000] [2002] Connection refused | MySQL server stopped | Start MySQL via XAMPP Control Panel. |
+| Address already in use :::3000 | Port in use | php -S localhost:3001 -t public |
+| 401 Access Denied: No Token Provided | Missing JWT | Include `Authorization: Bearer &lt;token&gt;` in header. |
+| Class "App\...\" not found | Autoloader can't find the file | Check the file lives at src/&lt;Namespace path&gt;.php matching the class name exactly. |
+| SQLSTATE[HY000] [2002] No such file or directory | macOS/Linux: PDO tried a Unix socket XAMPP does not expose | Set DB_HOST=127.0.0.1 in .env. |
+| 'php' is not recognized / command not found | XAMPP does not add PHP to PATH | export PATH="/c/xampp/php:/c/xampp/mysql/bin:$PATH" in Git Bash. |
+EOF</pre></div></section><section id="p1-phase5"><h2>Phase 5. Initial Git Commit</h2><div class="codeblock"><div class="codecap"><span>terminal</span><button type="button">copy</button></div><pre>git add .
+git commit -m "feat: initial PHP OOP project structure and setup documentation"
+git log --oneline</pre></div><div class="callout run"><b>RUN IT NOW</b>This is the starting point Day 2 builds on: folders and empty files exist, the environment is configured, and the documentation skeleton is in place &mdash; same milestone the Node edition reaches at the end of its Day 1.</div></section></main>
+</div>
+<footer>PHP + MySQL (vanilla OOP) edition of the Day 1 command playbook. Runnable, tested reference code lives in php_mysql/reference-app.</footer>
+<script>
+document.querySelectorAll('.codecap button').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var pre = btn.closest('.codeblock').querySelector('pre');
+    var text = pre.innerText;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function(){
+        btn.textContent = 'copied';
+        setTimeout(function(){ btn.textContent = 'copy'; }, 1200);
+      });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); btn.textContent = 'copied'; } catch(e){}
+      document.body.removeChild(ta);
+      setTimeout(function(){ btn.textContent = 'copy'; }, 1200);
+    }
+  });
+});
+</script>
+</body>
+</html>
